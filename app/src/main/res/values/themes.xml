@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.TC2007B_404_Eq2_apk" parent="android:Theme.Material.Light.NoActionBar" />
+</resources>
