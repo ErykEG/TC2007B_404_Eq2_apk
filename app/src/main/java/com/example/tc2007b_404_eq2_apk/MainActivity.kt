@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,6 +23,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -69,7 +71,15 @@ class MainActivity : ComponentActivity() {
                             color = Color.Blue,
                             strokeWidth = 8.dp
                         )*/
+                        /*Image(
+                            painter = painterResource(R.drawable.logoloading),
+                            contentDescription = null, // You can provide a description if needed
+                            modifier = Modifier.fillMaxSize() // Adjust as needed
+                        )
+                        */
                         Text(text = "Loading...")
+
+
                     }
                 }
             }
