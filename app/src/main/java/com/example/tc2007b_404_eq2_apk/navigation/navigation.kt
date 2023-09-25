@@ -291,7 +291,7 @@ fun MainPage(appViewModel: AppViewModel) {
 
 
         Scaffold(topBar = {
-            TopAppBar(title = { Text(text = "Navigation Drawer") }, navigationIcon = {
+            TopAppBar(title = { Text(text = "ConectAyuda") }, navigationIcon = {
 
                 IconButton(onClick = {
 
