@@ -20,7 +20,7 @@ interface OrgService {
     companion object {
 
         val instance: OrgService =
-            Retrofit.Builder().baseUrl("https://api-android2023-klhg-dev.fl0.io/orgs/")
+            Retrofit.Builder().baseUrl("https://api-android2023-qccf-dev.fl0.io/orgs/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(OrgService::class.java)
