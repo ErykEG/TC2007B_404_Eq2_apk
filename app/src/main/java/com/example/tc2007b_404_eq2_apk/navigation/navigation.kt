@@ -3,11 +3,12 @@ package com.example.tc2007b_404_eq2_apk.navigation
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Create
@@ -291,7 +292,10 @@ fun MainPage(appViewModel: AppViewModel) {
 
 
         Scaffold(topBar = {
-            TopAppBar(title = { Text(text = "ConectAyuda") }, navigationIcon = {
+            TopAppBar(title = { Text(text = "ConectAyuda",
+                modifier = Modifier.fillMaxWidth()
+                    .padding(60.dp)) },
+                navigationIcon = {
 
                 IconButton(onClick = {
 
@@ -309,7 +313,6 @@ fun MainPage(appViewModel: AppViewModel) {
                 }) {
                     Icon(Icons.Filled.Menu, contentDescription = "Drawer Menu.")
                 }
-
             })
         }) {
 
