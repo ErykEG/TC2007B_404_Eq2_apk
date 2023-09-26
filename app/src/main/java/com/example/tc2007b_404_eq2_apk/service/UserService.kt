@@ -18,7 +18,7 @@ interface UserService {
     companion object {
 
         val instance: UserService =
-            Retrofit.Builder().baseUrl("https://api-android2023-klhg-dev.fl0.io/users/")
+            Retrofit.Builder().baseUrl("https://api-android2023-qccf-dev.fl0.io/users/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(UserService::class.java)
