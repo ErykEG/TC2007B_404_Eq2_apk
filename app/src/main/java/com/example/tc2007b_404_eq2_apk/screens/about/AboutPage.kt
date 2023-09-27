@@ -27,7 +27,9 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tc2007b_404_eq2_apk.viewModel.AppViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.seconds
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -84,6 +86,7 @@ fun AboutPage(appviewModel: AppViewModel) {
 
             Button(onClick = {
                 corutineScope.launch {
+                    delay(2.seconds)
                     snackbarHostState.showSnackbar("Pago Realizado ")
                 }
 
