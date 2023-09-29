@@ -1,6 +1,5 @@
 package com.example.tc2007b_404_eq2_apk.screens.home
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,11 +25,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.example.tc2007b_404_eq2_apk.navigation.Screens
 import com.example.tc2007b_404_eq2_apk.viewModel.AppViewModel
 
 
 @Composable
-fun HomePage(appviewModel: AppViewModel) {
+fun HomePage(navController: NavController) {
     val oscList: List<String> = listOf(
         "Arena",
         "Mayama AC",
@@ -44,7 +48,7 @@ fun HomePage(appviewModel: AppViewModel) {
             LazyColumn {
                 items(items = oscList) {
                     OSCRow(osc = it) { osc ->
-                        Log.d("OSC", "$osc")
+                        navController.navigate(route = Screens.DetailsOSC.name + "/$osc")
                     }
                 }
             }

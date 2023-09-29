@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Create
@@ -53,11 +52,16 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.tc2007b_404_eq2_apk.viewModel.AppViewModel
 import com.example.tc2007b_404_eq2_apk.screens.about.AboutPage
+import com.example.tc2007b_404_eq2_apk.screens.detailsosc.DetailsOSC
 import com.example.tc2007b_404_eq2_apk.screens.home.HomePage
 import com.example.tc2007b_404_eq2_apk.screens.login.LoginPage
 import com.example.tc2007b_404_eq2_apk.screens.organizations.LoginOrg
@@ -79,7 +83,7 @@ data class NavigationItem(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainPage(appViewModel: AppViewModel) {
+fun MainPage(appViewModel: AppViewModel, navController: NavHostController) {
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -116,19 +120,19 @@ fun MainPage(appViewModel: AppViewModel) {
 
     val items = if (!loggedIn) mutableListOf(
         NavigationItem(
-            title = "HomePage",
+            title = "Inicio",
             selectedIcon = Icons.Filled.Home,
             unselectedIcon = Icons.Outlined.Home,
             route = "HomePage"
         ),
         NavigationItem(
-            title = "About",
+            title = "Términos y Condiciones",
             selectedIcon = Icons.Filled.Info,
             unselectedIcon = Icons.Outlined.Info,
             route = "AboutPage"
         ),
         NavigationItem(
-            title = "Settings",
+            title = "Configuración",
             selectedIcon = Icons.Filled.Settings,
             unselectedIcon = Icons.Outlined.Settings,
             route = "SettingsPage"
@@ -140,13 +144,13 @@ fun MainPage(appViewModel: AppViewModel) {
             route = "RegisterPage"
         ),
         NavigationItem(
-            title = "Login",
+            title = "Iniciar Sesión",
             selectedIcon = Icons.Filled.AccountCircle,
             unselectedIcon = Icons.Outlined.AccountCircle,
             route = "LoginPage"
         ),
         NavigationItem(
-            title = "Org Login",
+            title = "Iniciar Sesión Org",
             selectedIcon = Icons.Filled.Info,
             unselectedIcon = Icons.Outlined.Info,
             route = "OrgLogin"
@@ -156,23 +160,23 @@ fun MainPage(appViewModel: AppViewModel) {
             selectedIcon = Icons.Filled.Lock,
             unselectedIcon = Icons.Outlined.Lock,
             route = "TestProtectedPage"
-        )
+        ),
     ) else
         mutableListOf(
             NavigationItem(
-                title = "HomePage",
+                title = "Inicio",
                 selectedIcon = Icons.Filled.Home,
                 unselectedIcon = Icons.Outlined.Home,
                 route = "HomePage"
             ),
             NavigationItem(
-                title = "About",
+                title = "Términos y Condiciones",
                 selectedIcon = Icons.Filled.Info,
                 unselectedIcon = Icons.Outlined.Info,
                 route = "AboutPage"
             ),
             NavigationItem(
-                title = "Settings",
+                title = "Configuración",
                 selectedIcon = Icons.Filled.Settings,
                 unselectedIcon = Icons.Outlined.Settings,
                 route = "SettingsPage"
@@ -321,7 +325,7 @@ fun MainPage(appViewModel: AppViewModel) {
                 NavHost(navController = navController, startDestination = "HomePage") {
 
                     composable("HomePage") {
-                        HomePage(appViewModel)
+                        HomePage(navController)
                     }
 
                     composable("AboutPage") {
@@ -352,13 +356,16 @@ fun MainPage(appViewModel: AppViewModel) {
                         TestProtectedPage(appViewModel)
                     }
 
-
                     composable("SettingsPage") {
                         SettingsPage(appViewModel, navController) { value ->
                             // Update the loggedIn state in MainPage when it changes
                             loggedIn = value
                             //  selectedItemIndex = if (value) 1 else 0
                         }
+                    }
+                    composable("DetailsOSC/{osc}") { backStackEntry ->
+                        val osc = backStackEntry.arguments?.getString("osc")
+                        DetailsOSC(navController, osc)
                     }
                 }
             }
@@ -401,9 +408,4 @@ fun MainPage(appViewModel: AppViewModel) {
         )
     }
 
-
 }
-
-
-
-

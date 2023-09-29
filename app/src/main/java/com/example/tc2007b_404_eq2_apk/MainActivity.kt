@@ -28,6 +28,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.tc2007b_404_eq2_apk.navigation.MainPage
 import com.example.tc2007b_404_eq2_apk.ui.theme.TC2007B_404_Eq2_apkTheme
 import com.example.tc2007b_404_eq2_apk.util.constants.Constants
@@ -41,6 +43,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val navController = rememberNavController()
             val context = LocalContext.current
             val appViewModel: AppViewModel = viewModel(factory = AppViewModelFactory(context))
 
@@ -62,7 +65,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     if (configLoaded) {
-                        MainPage(appViewModel)
+                        MainPage(appViewModel, navController)
                     } else {
                         // Show a loading indicator or splash screen
                         /*CircularProgressIndicator(
@@ -77,7 +80,7 @@ class MainActivity : ComponentActivity() {
                             modifier = Modifier.fillMaxSize() // Adjust as needed
                         )
                         */
-                        Text(text = "Loading...")
+                        Text(text = "Cargando...")
 
 
                     }
