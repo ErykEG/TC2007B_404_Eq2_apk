@@ -17,7 +17,6 @@ import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,12 +24,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.tc2007b_404_eq2_apk.navigation.Screens
-import com.example.tc2007b_404_eq2_apk.viewModel.AppViewModel
 
 
 @Composable
@@ -41,20 +36,17 @@ fun HomePage(navController: NavController) {
         "Fundación Tuk"
     )
 
-    Surface(
-        color = MaterialTheme.colorScheme.background
-    ) {
-        Column(modifier = Modifier.padding(12.dp)) {
-            LazyColumn {
-                items(items = oscList) {
-                    OSCRow(osc = it) { osc ->
-                        navController.navigate(route = Screens.DetailsOSC.name + "/$osc")
-                    }
+    Column(modifier = Modifier.padding(12.dp)) {
+        LazyColumn {
+            items(items = oscList) {
+                OSCRow(osc = it) { osc ->
+                    navController.navigate(route = Screens.DetailsOSC.name + "/$osc")
                 }
             }
         }
     }
 }
+
 
 @Composable
 fun OSCRow(osc: String, onItemClick: (String) -> Unit = {}) {

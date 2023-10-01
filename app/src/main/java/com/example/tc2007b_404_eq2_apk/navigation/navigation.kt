@@ -1,28 +1,29 @@
 package com.example.tc2007b_404_eq2_apk.navigation
 
-
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.AccountBox
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Create
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.List
-import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -30,6 +31,7 @@ import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
@@ -52,26 +54,23 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import com.example.tc2007b_404_eq2_apk.viewModel.AppViewModel
 import com.example.tc2007b_404_eq2_apk.screens.about.AboutPage
 import com.example.tc2007b_404_eq2_apk.screens.detailsosc.DetailsOSC
+import com.example.tc2007b_404_eq2_apk.screens.favoritos.FavoritosPage
 import com.example.tc2007b_404_eq2_apk.screens.home.HomePage
 import com.example.tc2007b_404_eq2_apk.screens.login.LoginPage
 import com.example.tc2007b_404_eq2_apk.screens.organizations.LoginOrg
 import com.example.tc2007b_404_eq2_apk.screens.organizations.RegisterOrgPage
-import com.example.tc2007b_404_eq2_apk.screens.protect.TestProtectedPage
 import com.example.tc2007b_404_eq2_apk.screens.register.RegisterPage
 import com.example.tc2007b_404_eq2_apk.screens.settings.SettingsPage
 
-import kotlinx.coroutines.launch
 
+
+import kotlinx.coroutines.launch
 
 data class NavigationItem(
     val title: String,
@@ -80,43 +79,19 @@ data class NavigationItem(
     val route: String
 )
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainPage(appViewModel: AppViewModel, navController: NavHostController) {
-
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-
-    val navController = rememberNavController()
-    var selectedItemIndex by rememberSaveable {
-        mutableStateOf(0)
-    }
-
+    var selectedItemIndex by rememberSaveable { mutableStateOf(0) }
     var showDialog by remember { mutableStateOf(false) }
+    var loggedIn by remember { mutableStateOf(appViewModel.isUserLoggedIn()) }
+    var isHomePage by remember { mutableStateOf(false) }
 
     fun toggleDialog() {
         showDialog = !showDialog
     }
-
-
-    var loggedIn by remember {
-        mutableStateOf(appViewModel.isUserLoggedIn())
-    }
-
-
-    /* LaunchedEffect(appViewModel.isUserLoggedIn()) {
-         appViewModel.isInitialized.collect { result ->
-
-             loggedIn = result
-
-         }
-     }*/
-
-
-    /* LaunchedEffect(appViewModel.isUserLoggedIn()) {
-         loggedIn = appViewModel.isUserLoggedIn()
-     }*/
 
     val items = if (!loggedIn) mutableListOf(
         NavigationItem(
@@ -151,15 +126,9 @@ fun MainPage(appViewModel: AppViewModel, navController: NavHostController) {
         ),
         NavigationItem(
             title = "Iniciar Sesión Org",
-            selectedIcon = Icons.Filled.Info,
-            unselectedIcon = Icons.Outlined.Info,
+            selectedIcon = Icons.Filled.AccountBox,
+            unselectedIcon = Icons.Outlined.AccountBox,
             route = "OrgLogin"
-        ),
-        NavigationItem(
-            title = "Test Protected Page",
-            selectedIcon = Icons.Filled.Lock,
-            unselectedIcon = Icons.Outlined.Lock,
-            route = "TestProtectedPage"
         ),
     ) else
         mutableListOf(
@@ -180,16 +149,8 @@ fun MainPage(appViewModel: AppViewModel, navController: NavHostController) {
                 selectedIcon = Icons.Filled.Settings,
                 unselectedIcon = Icons.Outlined.Settings,
                 route = "SettingsPage"
-            ),
-
-            NavigationItem(
-                title = "Test Protected Page",
-                selectedIcon = Icons.Filled.Lock,
-                unselectedIcon = Icons.Outlined.Lock,
-                route = "TestProtectedPage"
             )
         )
-
 
     if (appViewModel.isAdmin()) {
         items.add(
@@ -202,13 +163,9 @@ fun MainPage(appViewModel: AppViewModel, navController: NavHostController) {
         )
     }
 
-
     ModalNavigationDrawer(drawerContent = {
-
         ModalDrawerSheet {
-
             Spacer(modifier = Modifier.height(16.dp))
-
             items.forEachIndexed { index, item ->
                 NavigationDrawerItem(
                     label = {
@@ -230,16 +187,13 @@ fun MainPage(appViewModel: AppViewModel, navController: NavHostController) {
                             contentDescription = item.title
                         )
                     },
-                    modifier = Modifier
-                        .padding(NavigationDrawerItemDefaults.ItemPadding)
+                    modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
                 )
             }
 
             if (loggedIn) {
                 Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
+                    modifier = Modifier.fillMaxSize().padding(16.dp),
                     contentAlignment = Alignment.BottomStart
                 ) {
                     Column {
@@ -251,143 +205,164 @@ fun MainPage(appViewModel: AppViewModel, navController: NavHostController) {
                             )
                         )
                         Button(onClick = {
-
-
                             toggleDialog()
-
                         }) {
                             Text(text = "Finalizar Sesión")
                         }
                     }
-
                 }
-
             } else {
                 Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
+                    modifier = Modifier.fillMaxSize().padding(16.dp),
                     contentAlignment = Alignment.BottomStart
                 ) {
                     Column {
                         Text(
-                            text = "Usuario invitado",
+                            text = "Invitado",
                             style = TextStyle(
                                 fontWeight = FontWeight.Light,
                                 fontSize = 18.sp
                             )
                         )
                         Text(
-                            text = "Registra una cuenta o inicia sesión para aprovechar al máximo la aplicación. ",
+                            text = "Inicie sesión o regístrese para disfrutar al máximo de ConectAyuda.",
                             style = TextStyle(
                                 fontWeight = FontWeight.Light,
                                 fontSize = 14.sp
                             )
                         )
-
                     }
-
                 }
             }
-
-
         }
     }, drawerState = drawerState) {
-
-
-        Scaffold(topBar = {
-            TopAppBar(title = { Text(text = "ConectAyuda",
-                modifier = Modifier.fillMaxWidth()
-                    .padding(60.dp)) },
-                navigationIcon = {
-
-                IconButton(onClick = {
-
-                    if (drawerState.isClosed) {
-                        scope.launch {
-                            drawerState.open()
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = {
+                        if (isHomePage) {
+                            Text(text = "Inicio")
+                        } else {
+                            Text("")
                         }
-                    } else {
-                        scope.launch {
-                            drawerState.close()
+                    },
+                    actions = {
+                        if (isHomePage) {
+                            Spacer(
+                                modifier = Modifier
+                                    .fillMaxHeight()
+                                    .width(50.dp)
+                            )
+                            IconButton(
+                                onClick = {
+                                    navController.navigate("HomePage")
+                                },
+                                modifier = Modifier.fillMaxHeight()
+                                    .weight(1f)
+                            ) {
+                                Text(text = "Inicio")
+                            }
+                            Spacer(
+                                modifier = Modifier
+                                    .fillMaxHeight()
+                                    .width(1.dp)
+                                    .background(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f))
+                            )
+                            IconButton(
+                                onClick = {
+                                    navController.navigate("FavoritosPage")
+                                },
+                                modifier = Modifier.fillMaxHeight().weight(1f)
+                            ) {
+                                Text(text = "Favoritos")
+                            }
+                            Spacer(
+                                modifier = Modifier
+                                    .fillMaxHeight()
+                                    .width(50.dp)
+                            )
+                        }
+                    },
+                    navigationIcon = {
+                        IconButton(onClick = {
+                            if (drawerState.isClosed) {
+                                scope.launch {
+                                    drawerState.open()
+                                }
+                            } else {
+                                scope.launch {
+                                    drawerState.close()
+                                }
+                            }
+                        }) {
+                            Icon(Icons.Filled.Menu, contentDescription = "Drawer Menu.")
                         }
                     }
-
-
-                }) {
-                    Icon(Icons.Filled.Menu, contentDescription = "Drawer Menu.")
-                }
-            })
-        }) {
-
+                )
+            }
+        )
+        {
             Box(modifier = Modifier.padding(it)) {
-
                 NavHost(navController = navController, startDestination = "HomePage") {
-
                     composable("HomePage") {
+                        isHomePage = true
                         HomePage(navController)
                     }
-
                     composable("AboutPage") {
+                        isHomePage = false
                         AboutPage(appViewModel)
                     }
-
                     composable("RegisterPage") {
+                        isHomePage = false
                         RegisterPage(appViewModel, navController)
                     }
-
                     composable("RegisterOrg") {
+                        isHomePage = false
                         RegisterOrgPage(appViewModel)
                     }
-
                     composable("OrgLogin") {
+                        isHomePage = false
                         LoginOrg(appViewModel)
                     }
-
-
                     composable("LoginPage") {
+                        isHomePage = false
                         LoginPage(appViewModel, navController) { value ->
                             loggedIn = value
                         }
                     }
-
-
-                    composable("TestProtectedPage") {
-                        TestProtectedPage(appViewModel)
-                    }
-
                     composable("SettingsPage") {
+                        isHomePage = false
                         SettingsPage(appViewModel, navController) { value ->
-                            // Update the loggedIn state in MainPage when it changes
                             loggedIn = value
-                            //  selectedItemIndex = if (value) 1 else 0
                         }
                     }
                     composable("DetailsOSC/{osc}") { backStackEntry ->
+                        isHomePage = false
                         val osc = backStackEntry.arguments?.getString("osc")
                         DetailsOSC(navController, osc)
+                    }
+                    composable("FavoritosPage") {
+                        isHomePage = true
+                        FavoritosPage(appViewModel)
                     }
                 }
             }
         }
     }
 
-
     if (showDialog) {
         AlertDialog(
-            onDismissRequest = { toggleDialog() },
+            onDismissRequest = { showDialog = false },
             title = { Text(text = "Confirm Logout") },
             text = { Text(text = "Are you sure you want to log out?") },
             confirmButton = {
                 Button(
                     onClick = {
-                        // Perform logout action here
-                        // You can use navController to navigate to the login page
                         navController.navigate("LoginPage")
-                        loggedIn = false // Update your loggedIn state
+                        loggedIn = false
                         appViewModel.deleteToken()
                         appViewModel.setLoggedOut()
-                        toggleDialog() // Close the dialog
+                        showDialog = false
                         scope.launch {
                             drawerState.close()
                         }
@@ -399,7 +374,7 @@ fun MainPage(appViewModel: AppViewModel, navController: NavHostController) {
             dismissButton = {
                 Button(
                     onClick = {
-                        toggleDialog() // Close the dialog
+                        showDialog = false
                     }
                 ) {
                     Text(text = "Cancel")
@@ -407,5 +382,4 @@ fun MainPage(appViewModel: AppViewModel, navController: NavHostController) {
             }
         )
     }
-
 }
