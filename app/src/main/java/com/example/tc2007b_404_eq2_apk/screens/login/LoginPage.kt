@@ -1,12 +1,14 @@
 package com.example.tc2007b_404_eq2_apk.screens.login
 
-import android.annotation.SuppressLint
-import android.util.Log
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -27,18 +29,15 @@ import androidx.navigation.NavHostController
 import com.example.tc2007b_404_eq2_apk.viewModel.AppViewModel
 import com.example.tc2007b_404_eq2_apk.model.UserLoginResponse
 import com.example.tc2007b_404_eq2_apk.service.UserService
-import com.example.tc2007b_404_eq2_apk.util.constants.Constants
 import com.example.tc2007b_404_eq2_apk.viewModel.UserViewModel
 
 
-@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun LoginPage(
     appviewModel: AppViewModel,
     navController: NavHostController,
     onLoggedInChanged: (Boolean) -> Unit
 ) {
-
 
     val userviewModel = UserViewModel(UserService.instance)
 
@@ -54,29 +53,16 @@ fun LoginPage(
         mutableStateOf(UserLoginResponse())
     }
 
-    LaunchedEffect(key1 = userviewModel) {
-        userviewModel.loginResult.collect { result ->
-            if (result != null) {
-                loginResult = result
-                loginResult.token?.let {
-                    appviewModel.storeValueInDataStore(it, Constants.TOKEN)
-                    appviewModel.setToken(it)
-                    appviewModel.setLoggedIn()
-                    navController.navigate("HomePage")
+    var termsAccepted by remember {
+        mutableStateOf(false)
+    }
 
-                    Log.d("DATASTORE", "Token saved: ${it}")
-                }
-                loginResult.isAdmin.let {
-                    appviewModel.storeValueInDataStore(it, Constants.ISADMIN)
-                    appviewModel.setIsAdmin(it)
-                }
+    var isFieldsFilled by remember {
+        mutableStateOf(false)
+    }
 
-
-                // store in store and update viewModel
-
-                onLoggedInChanged(true)
-            }
-        }
+    LaunchedEffect(telefono, password) {
+        isFieldsFilled = telefono.isNotBlank() && password.isNotBlank()
     }
 
     Column(
@@ -85,12 +71,12 @@ fun LoginPage(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
 
-        Text("Login", fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
+        Text("Iniciar Sesión", fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
 
         TextField(value = telefono, onValueChange = {
             telefono = it
         }, placeholder = {
-            Text("Teléfono de contacto")
+            Text("Teléfono")
         })
 
         TextField(
@@ -105,22 +91,36 @@ fun LoginPage(
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password)
         )
 
-        Button(onClick = {
-
-            userviewModel.loginUser(telefono.trim().toInt(), password)
-
-
-        }) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.clickable {
+                termsAccepted = !termsAccepted
+            }
+        ) {
+            Checkbox(
+                checked = termsAccepted,
+                onCheckedChange = {
+                    termsAccepted = it
+                }
+            )
+            Text(
+                text = "Aceptar términos y condiciones",
+                modifier = Modifier.padding(start = 8.dp)
+            )
+        }
+        Button(
+            onClick = {
+                if (termsAccepted) {
+                    userviewModel.loginUser(telefono.trim().toInt(), password)
+                }
+            },
+            enabled = termsAccepted && isFieldsFilled ) {
             Text(text = "Ingresar")
         }
-
-
-        // Text("${loginResult.token}  ")
-        //Text(" ${loginResult.message}")
-
-
     }
 }
 
 
 
+// Text("${loginResult.token}  ")
+// Text(" ${loginResult.message}")

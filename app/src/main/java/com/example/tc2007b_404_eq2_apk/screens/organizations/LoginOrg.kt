@@ -42,11 +42,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.SignInButton
 import com.google.android.gms.tasks.Task
 
 @Composable
 fun LoginOrg(appViewModel: AppViewModel) {
-    val context = LocalContext.current
+    /*val context = LocalContext.current
     var isLoading by remember { mutableStateOf(false) }
     val googleSignInClient = getGoogleLoginAuth(context)
     val userInfo = remember { mutableStateOf<GoogleSignInAccount?>(null) } // Store user info
@@ -94,11 +95,11 @@ fun LoginOrg(appViewModel: AppViewModel) {
             // Show user info when available
             UserInfo(userInfo.value!!, googleSignInClient)
         }
-    }
+    }*/
 }
 
 
-private fun getGoogleLoginAuth(context: Context): GoogleSignInClient {
+/*private fun getGoogleLoginAuth(context: Context): GoogleSignInClient {
 
 
     val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -203,4 +204,4 @@ fun SignInButton(
             }
         }
     }
-}
+}*/
