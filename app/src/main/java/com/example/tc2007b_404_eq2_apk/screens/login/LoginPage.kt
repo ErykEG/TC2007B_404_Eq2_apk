@@ -1,5 +1,7 @@
 package com.example.tc2007b_404_eq2_apk.screens.login
 
+import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -29,15 +31,17 @@ import androidx.navigation.NavHostController
 import com.example.tc2007b_404_eq2_apk.viewModel.AppViewModel
 import com.example.tc2007b_404_eq2_apk.model.UserLoginResponse
 import com.example.tc2007b_404_eq2_apk.service.UserService
+import com.example.tc2007b_404_eq2_apk.util.constants.Constants
 import com.example.tc2007b_404_eq2_apk.viewModel.UserViewModel
 
-
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun LoginPage(
     appviewModel: AppViewModel,
     navController: NavHostController,
     onLoggedInChanged: (Boolean) -> Unit
 ) {
+
 
     val userviewModel = UserViewModel(UserService.instance)
 
@@ -63,6 +67,28 @@ fun LoginPage(
 
     LaunchedEffect(telefono, password) {
         isFieldsFilled = telefono.isNotBlank() && password.isNotBlank()
+    }
+
+    LaunchedEffect(key1 = userviewModel) {
+        userviewModel.loginResult.collect { result ->
+            if (result != null) {
+                loginResult = result
+                loginResult.token?.let {
+                    appviewModel.storeValueInDataStore(it, Constants.TOKEN)
+                    appviewModel.setToken(it)
+                    appviewModel.setLoggedIn()
+                    navController.navigate("HomePage")
+
+                    Log.d("DATASTORE", "Token saved: ${it}")
+                }
+                loginResult.isAdmin.let {
+                    appviewModel.storeValueInDataStore(it, Constants.ISADMIN)
+                    appviewModel.setIsAdmin(it)
+                }
+
+                onLoggedInChanged(true)
+            }
+        }
     }
 
     Column(
@@ -114,13 +140,12 @@ fun LoginPage(
                     userviewModel.loginUser(telefono.trim().toInt(), password)
                 }
             },
-            enabled = termsAccepted && isFieldsFilled ) {
+            enabled = termsAccepted && isFieldsFilled
+        ) {
             Text(text = "Ingresar")
         }
     }
 }
 
-
-
 // Text("${loginResult.token}  ")
-// Text(" ${loginResult.message}")
+//Text(" ${loginResult.message}")
