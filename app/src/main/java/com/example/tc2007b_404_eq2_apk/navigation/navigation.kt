@@ -54,6 +54,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -71,7 +72,6 @@ import com.example.tc2007b_404_eq2_apk.screens.organizations.LoginOrg
 import com.example.tc2007b_404_eq2_apk.screens.organizations.RegisterOrgPage
 import com.example.tc2007b_404_eq2_apk.screens.register.RegisterPage
 import com.example.tc2007b_404_eq2_apk.screens.settings.SettingsPage
-
 
 
 import kotlinx.coroutines.launch
@@ -209,12 +209,14 @@ fun MainPage(appViewModel: AppViewModel, navController: NavHostController) {
 
             if (loggedIn) {
                 Box(
-                    modifier = Modifier.fillMaxSize().padding(16.dp),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
                     contentAlignment = Alignment.BottomStart
                 ) {
                     Column {
                         Text(
-                            text = "Bienvenido! Sesión activa",
+                            text = "¡Bienvenido! Sesión activa",
                             style = TextStyle(
                                 fontWeight = FontWeight.Light,
                                 fontSize = 18.sp
@@ -229,7 +231,9 @@ fun MainPage(appViewModel: AppViewModel, navController: NavHostController) {
                 }
             } else {
                 Box(
-                    modifier = Modifier.fillMaxSize().padding(16.dp),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
                     contentAlignment = Alignment.BottomStart
                 ) {
                     Column {
@@ -273,7 +277,8 @@ fun MainPage(appViewModel: AppViewModel, navController: NavHostController) {
                                 onClick = {
                                     navController.navigate("HomePage")
                                 },
-                                modifier = Modifier.fillMaxHeight()
+                                modifier = Modifier
+                                    .fillMaxHeight()
                                     .weight(1f)
                             ) {
                                 Text(text = "Inicio")
@@ -288,7 +293,9 @@ fun MainPage(appViewModel: AppViewModel, navController: NavHostController) {
                                 onClick = {
                                     navController.navigate("FavoritosPage")
                                 },
-                                modifier = Modifier.fillMaxHeight().weight(1f)
+                                modifier = Modifier
+                                    .fillMaxHeight()
+                                    .weight(1f)
                             ) {
                                 Text(text = "Favoritos")
                             }
@@ -363,15 +370,15 @@ fun MainPage(appViewModel: AppViewModel, navController: NavHostController) {
                         isHomePage = true
                         FavoritosPage(appViewModel)
                     }
-                    composable("LogRegPage"){
+                    composable("LogRegPage") {
                         isHomePage = false
-                        LogRegPage(appViewModel, navController){ value ->
+                        LogRegPage(appViewModel, navController) { value ->
                             loggedIn = value
                         }
                     }
-                    composable("LogRegPageOSC"){
+                    composable("LogRegPageOSC") {
                         isHomePage = false
-                        LogRegPageOSC(appViewModel, navController){ value ->
+                        LogRegPageOSC(appViewModel, navController) { value ->
                             loggedIn = value
                         }
                     }
@@ -383,8 +390,13 @@ fun MainPage(appViewModel: AppViewModel, navController: NavHostController) {
     if (showDialog) {
         AlertDialog(
             onDismissRequest = { showDialog = false },
-            title = { Text(text = "Confirmar el cierre de sesión") },
-            text = { Text(text = "¿Seguro de cerrar sesión?") },
+            title = { Text(text = "Cierre de Sesión", textAlign = TextAlign.Center) },
+            text = {
+                Text(
+                    text = "¿Seguro que desea cerrar la sesión?",
+                    textAlign = TextAlign.Center
+                )
+            },
             confirmButton = {
                 Button(
                     onClick = {
