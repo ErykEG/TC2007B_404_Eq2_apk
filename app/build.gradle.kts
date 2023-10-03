@@ -82,4 +82,6 @@ dependencies {
     implementation("androidx.datastore:datastore-preferences:1.0.0")
 
     implementation("com.google.android.gms:play-services-auth:19.2.0")
+
+    implementation("com.github.skydoves:landscapist-glide:1.3.7")
 }

@@ -1,10 +1,16 @@
 package com.example.tc2007b_404_eq2_apk.screens.home
 
+import android.graphics.Paint.Align
+import android.graphics.drawable.Drawable
 import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -18,6 +24,7 @@ import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,6 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.tc2007b_404_eq2_apk.R
 import com.example.tc2007b_404_eq2_apk.model.OrgResp
 import com.example.tc2007b_404_eq2_apk.model.OrgRespList
 import com.example.tc2007b_404_eq2_apk.navigation.Screens
@@ -39,6 +47,7 @@ import com.example.tc2007b_404_eq2_apk.service.UserService
 import com.example.tc2007b_404_eq2_apk.util.constants.Constants
 import com.example.tc2007b_404_eq2_apk.viewModel.OrgViewModel
 import com.example.tc2007b_404_eq2_apk.viewModel.UserViewModel
+import com.skydoves.landscapist.glide.GlideImage
 
 
 @Composable
@@ -47,11 +56,14 @@ fun HomePage(navController: NavController) {
     var orgList by remember {
         mutableStateOf(OrgRespList())
     }
+    var visibility by remember { mutableStateOf(true) }
+
     orgViewModel.getOrgL()
+
     LaunchedEffect(key1 = orgViewModel) {
         orgViewModel.orgListResult.collect { result ->
             if (result != null) {
-                orgList=result
+                orgList = result
             }
         }
     }
@@ -65,12 +77,36 @@ fun HomePage(navController: NavController) {
     Column(modifier = Modifier.padding(12.dp)) {
         LazyColumn {
             items(items = orgList) {
+                visibility = false
                 OSCRow(osc = it) { osc ->
                     navController.navigate(route = Screens.DetailsOSC.name + "/$osc")
                 }
             }
         }
     }
+    AnimatedVisibility(
+        visible = visibility,
+        enter = fadeIn(),
+        exit = fadeOut()
+    ) {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            Column(
+                modifier = Modifier,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                GlideImage(
+                    imageModel = R.drawable.logoloading,
+                    modifier = Modifier.size(200.dp),
+                    contentDescription = null
+                )
+            }
+        }
+    }
+
 }
 
 @Composable
