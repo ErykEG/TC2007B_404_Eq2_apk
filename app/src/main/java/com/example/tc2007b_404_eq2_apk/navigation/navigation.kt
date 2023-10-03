@@ -338,7 +338,9 @@ fun MainPage(appViewModel: AppViewModel, navController: NavHostController) {
                     }
                     composable("OrgLogin") {
                         isHomePage = false
-                        LoginOrg(appViewModel)
+                        LoginOrg(appViewModel, navController) { value ->
+                            loggedIn = value
+                        }
                     }
                     composable("LoginPage") {
                         isHomePage = false

@@ -54,11 +54,11 @@ fun HomePage(navController: NavController) {
             }
         }
     }
-    val oscList: List<String> = listOf(
+    /*val oscList: List<String> = listOf(
         "Arena",
         "Mayama AC",
         "Fundación Tuk"
-    )
+    )*/
 
     Column(modifier = Modifier.padding(12.dp)) {
         LazyColumn {
