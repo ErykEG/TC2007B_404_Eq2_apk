@@ -3,6 +3,9 @@ package com.example.tc2007b_404_eq2_apk
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -49,8 +53,9 @@ class MainActivity : ComponentActivity() {
                 mutableStateOf(false)
             }
 
+            var visibility by remember { mutableStateOf(true) }
+
             LaunchedEffect(appViewModel.isUserLoggedIn()) {
-                delay(500)
                 delay(4.seconds)
                 appViewModel.isInitialized.collect { result ->
                     configLoaded = result
@@ -62,54 +67,66 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    if (configLoaded) {
-                        MainPage(appViewModel, navController)
-                    } else {
-                        Column (modifier = Modifier,
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.Center) {
-
-                            Text(
-                                text = "¡Bienvenido a ConectAyuda!",
-                                style = TextStyle(
-                                    fontSize = 19.sp,
-                                    fontWeight = FontWeight.Bold
-                                ),
-                                modifier = Modifier.padding(bottom = 16.dp),
-                            )
-                            Image(
-                                painter = painterResource(R.drawable.flor),
-                                contentDescription = null,
-                                modifier = Modifier.size(200.dp)
-                            )
-                        }
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .fillMaxHeight(),
-                            verticalArrangement = Arrangement.Bottom
+                    MainPage(appViewModel, navController)
+                    AnimatedVisibility(
+                        visible = visibility,
+                        enter = fadeIn(),
+                        exit = fadeOut()
+                    ) {
+                        Surface(
+                            modifier = Modifier.fillMaxSize(),
+                            color = MaterialTheme.colorScheme.background
                         ) {
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(16.dp),
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.Center
+                            Column(
+                                modifier = Modifier,
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center
                             ) {
-                                Image(
-                                    painter = painterResource(id = R.drawable.cp),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(10.dp)
-                                )
+
                                 Text(
-                                    text = "Derechos reservados",
-                                    fontSize = 10.sp,
-                                    modifier = Modifier.padding(start = 8.dp)
+                                    text = "¡Bienvenido a ConectAyuda!",
+                                    style = TextStyle(
+                                        fontSize = 19.sp,
+                                        fontWeight = FontWeight.Bold
+                                    ),
+                                    modifier = Modifier.padding(bottom = 16.dp),
+                                )
+                                Image(
+                                    painter = painterResource(R.drawable.flor),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(200.dp)
                                 )
                             }
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .fillMaxHeight(),
+                                verticalArrangement = Arrangement.Bottom
+                            ) {
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(16.dp),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.Center
+                                ) {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.cp),
+                                        contentDescription = null,
+                                        modifier = Modifier.size(10.dp)
+                                    )
+
+                                    Text(
+                                        text = "Todos los Derechos Reservados",
+                                        fontSize = 10.sp,
+                                        modifier = Modifier.padding(start = 8.dp)
+                                    )
+                                }
+                            }
                         }
-
-
+                    }
+                    if (configLoaded) {
+                        visibility = false
                     }
                 }
             }
