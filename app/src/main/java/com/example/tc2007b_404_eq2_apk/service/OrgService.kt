@@ -2,6 +2,7 @@ package com.example.tc2007b_404_eq2_apk.service
 
 import com.example.tc2007b_404_eq2_apk.model.OrgRegister
 import com.example.tc2007b_404_eq2_apk.model.OrgRegisterResponse
+import com.example.tc2007b_404_eq2_apk.model.OrgRespList
 import com.example.tc2007b_404_eq2_apk.model.UserLogin
 import com.example.tc2007b_404_eq2_apk.model.UserLoginResponse
 import com.example.tc2007b_404_eq2_apk.model.UserProtectedResponse
@@ -31,5 +32,9 @@ interface OrgService {
         @Header("Authorization") token: String,
         @Body org: OrgRegister
     ): OrgRegisterResponse
+
+    @GET("getOrgs")
+    //@Headers("Authorization: {token}")
+    suspend fun all(): OrgRespList
 
 }
