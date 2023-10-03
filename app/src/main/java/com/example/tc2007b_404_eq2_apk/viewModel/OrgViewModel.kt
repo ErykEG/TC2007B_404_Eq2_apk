@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tc2007b_404_eq2_apk.model.OrgRegister
 import com.example.tc2007b_404_eq2_apk.model.OrgRegisterResponse
+import com.example.tc2007b_404_eq2_apk.model.OrgRespList
 import com.example.tc2007b_404_eq2_apk.model.UserLogin
 import com.example.tc2007b_404_eq2_apk.model.UserLoginResponse
 import com.example.tc2007b_404_eq2_apk.model.UserProtectedResponse
@@ -21,8 +22,10 @@ class OrgViewModel(private val orgService: OrgService) : ViewModel() {
 
 
     private val _orgRegisterResult = MutableStateFlow<OrgRegisterResponse?>(null)
-    val orgRegisterResult: StateFlow<OrgRegisterResponse?>
-        get() = _orgRegisterResult
+    val orgRegisterResult: StateFlow<OrgRegisterResponse?> = _orgRegisterResult
+
+    private val _orgListResult = MutableStateFlow<OrgRespList?>(null)
+    val orgListResult: StateFlow<OrgRespList?> = _orgListResult
 
 
     fun addOrganization(token: String, org: OrgRegister) {
@@ -36,6 +39,24 @@ class OrgViewModel(private val orgService: OrgService) : ViewModel() {
                 response = orgService.addOrg(token, org)
                 _orgRegisterResult.value = response
                 response.message?.let { Log.d("RESPONSE", it) }
+
+            } catch (e: Exception) {
+                Log.d("RESPONSE", e.localizedMessage)
+            }
+        }
+
+    }
+
+    fun getOrgL() {
+
+        viewModelScope.launch {
+
+            var response: OrgRespList? = null
+
+            try {
+
+                response =   orgService.all()
+                _orgListResult.value = response
 
             } catch (e: Exception) {
                 Log.d("RESPONSE", e.localizedMessage)
