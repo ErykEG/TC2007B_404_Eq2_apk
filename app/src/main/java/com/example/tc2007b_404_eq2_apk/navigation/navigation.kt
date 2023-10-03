@@ -17,6 +17,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.AccountBox
 import androidx.compose.material.icons.outlined.AccountCircle
@@ -24,6 +25,7 @@ import androidx.compose.material.icons.outlined.Create
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.List
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -63,6 +65,8 @@ import com.example.tc2007b_404_eq2_apk.screens.detailsosc.DetailsOSC
 import com.example.tc2007b_404_eq2_apk.screens.favoritos.FavoritosPage
 import com.example.tc2007b_404_eq2_apk.screens.home.HomePage
 import com.example.tc2007b_404_eq2_apk.screens.login.LoginPage
+import com.example.tc2007b_404_eq2_apk.screens.logreg.LogRegPage
+import com.example.tc2007b_404_eq2_apk.screens.logreg.LogRegPageOSC
 import com.example.tc2007b_404_eq2_apk.screens.organizations.LoginOrg
 import com.example.tc2007b_404_eq2_apk.screens.organizations.RegisterOrgPage
 import com.example.tc2007b_404_eq2_apk.screens.register.RegisterPage
@@ -112,24 +116,36 @@ fun MainPage(appViewModel: AppViewModel, navController: NavHostController) {
             unselectedIcon = Icons.Outlined.Settings,
             route = "SettingsPage"
         ),
-        NavigationItem(
+        /*NavigationItem(
             title = "Registrar Nueva Cuenta",
             selectedIcon = Icons.Filled.Create,
             unselectedIcon = Icons.Outlined.Create,
             route = "RegisterPage"
-        ),
-        NavigationItem(
+        ),*/
+        /*NavigationItem(
             title = "Iniciar Sesión",
             selectedIcon = Icons.Filled.AccountCircle,
             unselectedIcon = Icons.Outlined.AccountCircle,
             route = "LoginPage"
+        ),*/
+        NavigationItem(
+            title = "Iniciar Sesión/Registrar Usuario",
+            selectedIcon = Icons.Filled.AccountCircle,
+            unselectedIcon = Icons.Outlined.AccountCircle,
+            route = "LogRegPage"
         ),
         NavigationItem(
+            title = "Iniciar Sesión/Registrar OSC",
+            selectedIcon = Icons.Filled.Person,
+            unselectedIcon = Icons.Outlined.Person,
+            route = "LogRegPageOSC"
+        )
+        /*NavigationItem(
             title = "Iniciar Sesión Org",
             selectedIcon = Icons.Filled.AccountBox,
             unselectedIcon = Icons.Outlined.AccountBox,
             route = "OrgLogin"
-        ),
+        )*/
     ) else
         mutableListOf(
             NavigationItem(
@@ -345,6 +361,18 @@ fun MainPage(appViewModel: AppViewModel, navController: NavHostController) {
                         isHomePage = true
                         FavoritosPage(appViewModel)
                     }
+                    composable("LogRegPage"){
+                        isHomePage = false
+                        LogRegPage(appViewModel, navController){ value ->
+                            loggedIn = value
+                        }
+                    }
+                    composable("LogRegPageOSC"){
+                        isHomePage = false
+                        LogRegPageOSC(appViewModel, navController){ value ->
+                            loggedIn = value
+                        }
+                    }
                 }
             }
         }
@@ -353,8 +381,8 @@ fun MainPage(appViewModel: AppViewModel, navController: NavHostController) {
     if (showDialog) {
         AlertDialog(
             onDismissRequest = { showDialog = false },
-            title = { Text(text = "Confirm Logout") },
-            text = { Text(text = "Are you sure you want to log out?") },
+            title = { Text(text = "Confirmar el cierre de sesión") },
+            text = { Text(text = "¿Seguro de cerrar sesión?") },
             confirmButton = {
                 Button(
                     onClick = {
@@ -368,7 +396,7 @@ fun MainPage(appViewModel: AppViewModel, navController: NavHostController) {
                         }
                     }
                 ) {
-                    Text(text = "Logout")
+                    Text(text = "Cerrar Sesión")
                 }
             },
             dismissButton = {
@@ -377,7 +405,7 @@ fun MainPage(appViewModel: AppViewModel, navController: NavHostController) {
                         showDialog = false
                     }
                 ) {
-                    Text(text = "Cancel")
+                    Text(text = "Cancelar")
                 }
             }
         )
