@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.tc2007b_404_eq2_apk.model.OrgResp
 import com.example.tc2007b_404_eq2_apk.model.OrgRespList
 import com.example.tc2007b_404_eq2_apk.navigation.Screens
 import com.example.tc2007b_404_eq2_apk.service.OrgService
@@ -64,7 +65,7 @@ fun HomePage(navController: NavController) {
     Column(modifier = Modifier.padding(12.dp)) {
         LazyColumn {
             items(items = orgList) {
-                OSCRow(osc = it.name) { osc ->
+                OSCRow(osc = it) { osc ->
                     navController.navigate(route = Screens.DetailsOSC.name + "/$osc")
                 }
             }
@@ -72,16 +73,15 @@ fun HomePage(navController: NavController) {
     }
 }
 
-
 @Composable
-fun OSCRow(osc: String, onItemClick: (String) -> Unit = {}) {
+fun OSCRow(osc: OrgResp, onItemClick: (String) -> Unit = {}) {
     Card(
         modifier = Modifier
             .padding(4.dp)
             .fillMaxWidth()
             .height(130.dp)
             .clickable {
-                onItemClick(osc)
+                onItemClick(osc._id)
             },
         shape = RoundedCornerShape(corner = CornerSize(16.dp)),
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
@@ -100,7 +100,7 @@ fun OSCRow(osc: String, onItemClick: (String) -> Unit = {}) {
 
                 Icon(imageVector = Icons.Default.AccountBox, contentDescription = null)
             }
-            Text(text = osc)
+            Text(text = osc.name)
         }
     }
 }
