@@ -61,11 +61,10 @@ fun BusquedaPage(
             Text("Selecciona algún tag para buscar")
         }
 
-        // Lista de elementos
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f) // Hace que la lista tome el espacio restante en la pantalla
+                .weight(1f)
                 .padding(16.dp)
         ) {
             items(nombres) { nombre ->
@@ -78,7 +77,7 @@ fun BusquedaPage(
                         .padding(8.dp)
                         .clickable {
                             if (isSelected) {
-                                selectedIndices.clear() // Deselecciona todos los elementos
+                                selectedIndices.clear()
                             } else {
                                 selectedIndices.clear()
                                 selectedIndices.add(index)
@@ -101,7 +100,6 @@ fun BusquedaPage(
             }
         }
 
-        // Botón de búsqueda
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -110,9 +108,7 @@ fun BusquedaPage(
             horizontalArrangement = Arrangement.Center
         ) {
             Button(
-                onClick = {
-                    // Realiza acciones con el elemento seleccionado si es necesario
-                }
+                onClick = {}
             ) {
                 Text("Buscar")
             }
