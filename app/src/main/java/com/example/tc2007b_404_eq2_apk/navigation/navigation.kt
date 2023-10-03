@@ -388,7 +388,7 @@ fun MainPage(appViewModel: AppViewModel, navController: NavHostController) {
                     }
                     composable("BusquedaPage"){
                         isHomePage = false
-                        BusquedaPage(appViewModel, navController)
+                        BusquedaPage(navController)
                     }
                 }
             }
