@@ -156,13 +156,13 @@ fun MainPage(appViewModel: AppViewModel, navController: NavHostController) {
                 selectedIcon = Icons.Filled.Info,
                 unselectedIcon = Icons.Outlined.Info,
                 route = "AboutPage"
-            ),
-            NavigationItem(
+            )
+            /*NavigationItem(
                 title = "Configuración",
                 selectedIcon = Icons.Filled.Settings,
                 unselectedIcon = Icons.Outlined.Settings,
                 route = "SettingsPage"
-            )
+            )*/
         )
 
     if (appViewModel.isAdmin()) {
