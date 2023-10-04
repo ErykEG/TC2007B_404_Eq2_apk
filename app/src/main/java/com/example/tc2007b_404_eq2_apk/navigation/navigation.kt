@@ -361,7 +361,9 @@ fun MainPage(appViewModel: AppViewModel, navController: NavHostController) {
                     composable("DetailsOSC/{osc}") { backStackEntry ->
                         isHomePage = false
                         val osc = backStackEntry.arguments?.getString("osc")
-                        DetailsOSC(navController, osc)
+                        if (osc != null) {
+                            DetailsOSC(navController, osc)
+                        }
                     }
                     composable("FavoritosPage") {
                         isHomePage = true
