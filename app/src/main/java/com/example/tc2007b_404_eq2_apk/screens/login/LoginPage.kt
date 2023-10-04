@@ -2,15 +2,11 @@ package com.example.tc2007b_404_eq2_apk.screens.login
 
 import android.annotation.SuppressLint
 import android.util.Log
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -56,9 +52,9 @@ fun LoginPage(
         mutableStateOf(UserLoginResponse())
     }
 
-    var termsAccepted by remember {
+    /*var termsAccepted by remember {
         mutableStateOf(false)
-    }
+    }*/
 
     var isFieldsFilled by remember {
         mutableStateOf(false)
@@ -116,7 +112,7 @@ fun LoginPage(
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password)
         )
 
-        Row(
+        /*Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.clickable {
                 termsAccepted = !termsAccepted
@@ -132,14 +128,14 @@ fun LoginPage(
                 text = "Aceptar términos y condiciones",
                 modifier = Modifier.padding(start = 8.dp)
             )
-        }
+        }*/
         Button(
             onClick = {
-                if (termsAccepted) {
+                if (isFieldsFilled) {
                     userviewModel.loginUser(telefono.trim().toInt(), password)
                 }
             },
-            enabled = termsAccepted && isFieldsFilled
+            enabled = /*TermsAccepted &&*/ isFieldsFilled
         ) {
             Text(text = "Ingresar")
         }

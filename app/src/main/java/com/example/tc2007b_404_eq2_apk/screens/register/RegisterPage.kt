@@ -2,15 +2,18 @@ package com.example.tc2007b_404_eq2_apk.screens.register
 
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,7 +25,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -56,6 +58,17 @@ fun RegisterPage(
     }
 
     var registrationResult by remember { mutableStateOf<UserViewModel.ApiResult?>(null) }
+
+    var termsAccepted by remember {
+        mutableStateOf(false)
+    }
+
+    var isFieldsFilled by remember {
+        mutableStateOf(false)
+    }
+    LaunchedEffect(telefono, password, validarpassword) {
+        isFieldsFilled = telefono.isNotBlank() && password.isNotBlank() && validarpassword.isNotBlank()
+    }
 
     LaunchedEffect(key1 = viewModel) {
         viewModel.registrationResult.collect { result ->
@@ -97,13 +110,31 @@ fun RegisterPage(
         }, visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password)
         )
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.clickable {
+                termsAccepted = !termsAccepted
+            }
+        ) {
+            Checkbox(
+                checked = termsAccepted,
+                onCheckedChange = {
+                    termsAccepted = it
+                }
+            )
+            Text(
+                text = "Aceptar términos y condiciones",
+                modifier = Modifier.padding(start = 8.dp)
+            )
+        }
 
         Button(onClick = {
-
-            viewModel.addUser(telefono.trim().toInt(), password)
-
-
-        }) {
+            if (termsAccepted && isFieldsFilled) {
+                viewModel.addUser(telefono.trim().toInt(), password)
+            }
+                         },
+            enabled = termsAccepted && isFieldsFilled
+        ) {
             Text(text = "Registrar Usuario")
         }
 
@@ -111,7 +142,7 @@ fun RegisterPage(
             if (showDelayedText) {
                 launch {
 
-                    delay(5000) // Delay for 2 seconds (adjust as needed)
+                    delay(5000)
                     showDelayedText = false
                     navController.navigate("LoginPage")
                 }

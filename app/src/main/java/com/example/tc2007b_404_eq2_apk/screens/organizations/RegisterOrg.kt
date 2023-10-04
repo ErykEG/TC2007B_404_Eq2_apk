@@ -1,12 +1,16 @@
 package com.example.tc2007b_404_eq2_apk.screens.organizations
 
-import android.util.Log
+import android.annotation.SuppressLint
 import android.widget.Toast
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -20,14 +24,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tc2007b_404_eq2_apk.model.OrgRegister
 import com.example.tc2007b_404_eq2_apk.model.OrgRegisterResponse
 import com.example.tc2007b_404_eq2_apk.service.OrgService
-import com.example.tc2007b_404_eq2_apk.util.constants.Constants
 import com.example.tc2007b_404_eq2_apk.viewModel.AppViewModel
 import com.example.tc2007b_404_eq2_apk.viewModel.OrgViewModel
 
@@ -48,9 +51,35 @@ fun RegisterOrgPage(appViewModel: AppViewModel = AppViewModel(LocalContext.curre
     var description by remember {
         mutableStateOf("")
     }
+    var password by remember {
+        mutableStateOf("")
+    }
+
+    var validarpassword by remember {
+        mutableStateOf("")
+    }
+    var token by remember {
+        mutableStateOf("")
+    }
 
     var orgRegisterResult by remember {
         mutableStateOf(OrgRegisterResponse())
+    }
+
+    var termsAccepted by remember {
+        mutableStateOf(false)
+    }
+
+    var isFieldsFilled by remember {
+        mutableStateOf(false)
+    }
+    LaunchedEffect(name, email, description, password, validarpassword, token) {
+        isFieldsFilled = name.isNotBlank() &&
+                email.isNotBlank() &&
+                description.isNotBlank() &&
+                password.isNotBlank() &&
+                validarpassword.isNotBlank() &&
+                token.isNotBlank()
     }
 
 
@@ -61,7 +90,6 @@ fun RegisterOrgPage(appViewModel: AppViewModel = AppViewModel(LocalContext.curre
             }
         }
     }
-
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -95,15 +123,58 @@ fun RegisterOrgPage(appViewModel: AppViewModel = AppViewModel(LocalContext.curre
         },
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password)
         )
+        TextField(
+            value = password,
+            onValueChange = {
+                password = it
+            },
+            placeholder = {
+                Text("Contraseña")
+            },
+            visualTransformation = PasswordVisualTransformation(),
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password)
+        )
+
+        TextField(value = validarpassword, onValueChange = {
+            validarpassword = it
+        }, placeholder = {
+            Text("Confirma tu contraseña")
+        }, visualTransformation = PasswordVisualTransformation(),
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password)
+        )
+
+        TextField(value = token, onValueChange = {
+            token = it
+        }, placeholder = {
+            Text("Token de acceso")
+        }, visualTransformation = PasswordVisualTransformation(),
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password)
+        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.clickable {
+                termsAccepted = !termsAccepted
+            }
+        ) {
+            Checkbox(
+                checked = termsAccepted,
+                onCheckedChange = {
+                    termsAccepted = it
+                }
+            )
+            Text(
+                text = "Aceptar términos y condiciones",
+                modifier = Modifier.padding(start = 8.dp)
+            )
+        }
 
         Button(onClick = {
 
-            val organization = OrgRegister(description, email, name)
+            val organization = OrgRegister(name, description, email, password, validarpassword, token)
 
-            orgViewModel.addOrganization(appViewModel.getToken(), organization)
-
-
-        }) {
+            orgViewModel.addOrganization(appViewModel.getToken(), organization)},
+            enabled = termsAccepted && isFieldsFilled
+        ) {
             Text(text = "Registrar Nueva Organización")
         }
 
@@ -115,6 +186,7 @@ fun RegisterOrgPage(appViewModel: AppViewModel = AppViewModel(LocalContext.curre
 }
 
 
+@SuppressLint("ComposableNaming")
 @Composable
 fun showToast(message: String) {
     val context = LocalContext.current

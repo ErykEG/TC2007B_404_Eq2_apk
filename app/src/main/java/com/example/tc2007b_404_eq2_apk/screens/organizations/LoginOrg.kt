@@ -2,15 +2,11 @@ package com.example.tc2007b_404_eq2_apk.screens.organizations
 
 import android.annotation.SuppressLint
 import android.util.Log
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -44,7 +40,7 @@ fun LoginOrg(
 
     val userviewModel = UserViewModel(UserService.instance)
 
-    var telefono by remember {
+    var email by remember {
         mutableStateOf("")
     }
 
@@ -56,16 +52,16 @@ fun LoginOrg(
         mutableStateOf(UserLoginResponse())
     }
 
-    var termsAccepted by remember {
+    /*var termsAccepted by remember {
         mutableStateOf(false)
-    }
+    }*/
 
     var isFieldsFilled by remember {
         mutableStateOf(false)
     }
 
-    LaunchedEffect(telefono, password) {
-        isFieldsFilled = telefono.isNotBlank() && password.isNotBlank()
+    LaunchedEffect(email, password) {
+        isFieldsFilled = email.isNotBlank() && password.isNotBlank()
     }
 
     LaunchedEffect(key1 = userviewModel) {
@@ -98,10 +94,10 @@ fun LoginOrg(
 
         Text("Iniciar Sesión", fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
 
-        TextField(value = telefono, onValueChange = {
-            telefono = it
+        TextField(value = email, onValueChange = {
+            email = it
         }, placeholder = {
-            Text("Teléfono")
+            Text("Email")
         })
 
         TextField(
@@ -116,7 +112,7 @@ fun LoginOrg(
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password)
         )
 
-        Row(
+        /*Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.clickable {
                 termsAccepted = !termsAccepted
@@ -132,14 +128,14 @@ fun LoginOrg(
                 text = "Aceptar términos y condiciones",
                 modifier = Modifier.padding(start = 8.dp)
             )
-        }
+        }*/
         Button(
             onClick = {
-                if (termsAccepted) {
-                    userviewModel.loginUser(telefono.trim().toInt(), password)
+                if (isFieldsFilled) {
+                    userviewModel.loginUser(email.trim().toInt(), password)
                 }
             },
-            enabled = termsAccepted && isFieldsFilled
+            enabled = /*termsAccepted &&*/ isFieldsFilled
         ) {
             Text(text = "Ingresar")
         }
