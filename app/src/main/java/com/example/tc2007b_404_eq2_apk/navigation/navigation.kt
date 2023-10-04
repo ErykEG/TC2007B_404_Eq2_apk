@@ -338,7 +338,7 @@ fun MainPage(appViewModel: AppViewModel, navController: NavHostController) {
                     }
                     composable("RegisterOrg") {
                         isHomePage = false
-                        RegisterOrgPage(appViewModel)
+                        RegisterOrgPage(appViewModel, navController)
                     }
                     composable("OrgLogin") {
                         isHomePage = false

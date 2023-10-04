@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -21,22 +22,24 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.tc2007b_404_eq2_apk.model.OrgRegister
 import com.example.tc2007b_404_eq2_apk.model.OrgRegisterResponse
+import com.example.tc2007b_404_eq2_apk.screens.register.showToast
 import com.example.tc2007b_404_eq2_apk.service.OrgService
 import com.example.tc2007b_404_eq2_apk.viewModel.AppViewModel
 import com.example.tc2007b_404_eq2_apk.viewModel.OrgViewModel
 
-@Preview(showBackground = true)
 @Composable
-fun RegisterOrgPage(appViewModel: AppViewModel = AppViewModel(LocalContext.current)) {
+fun RegisterOrgPage(appViewModel: AppViewModel = AppViewModel(LocalContext.current), navController: NavController) {
 
     val orgViewModel = OrgViewModel(OrgService.instance)
 
@@ -180,6 +183,20 @@ fun RegisterOrgPage(appViewModel: AppViewModel = AppViewModel(LocalContext.curre
 
         if (orgRegisterResult.message != null) {
             showToast(message = "Organizacion registrada exitosamente")
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable {
+                    navController.navigate("AboutPage")
+                }
+                .padding(vertical = 16.dp),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.Bottom
+        ) {
+            Text(text = "Términos y Condiciones",
+                color = Color.Blue,
+                textDecoration = TextDecoration.Underline)
         }
 
     }
