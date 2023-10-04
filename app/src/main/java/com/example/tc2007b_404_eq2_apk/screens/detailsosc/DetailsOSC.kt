@@ -1,30 +1,27 @@
 package com.example.tc2007b_404_eq2_apk.screens.detailsosc
 
-import android.util.Log
+import android.annotation.SuppressLint
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -36,17 +33,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.tc2007b_404_eq2_apk.model.OrgRespList
-import com.example.tc2007b_404_eq2_apk.model.Page
 import com.example.tc2007b_404_eq2_apk.model.PageList
 import com.example.tc2007b_404_eq2_apk.model.Stringid
-import com.example.tc2007b_404_eq2_apk.navigation.Screens
-import com.example.tc2007b_404_eq2_apk.screens.home.OSCRow
-import com.example.tc2007b_404_eq2_apk.service.OrgService
 import com.example.tc2007b_404_eq2_apk.service.PagService
-import com.example.tc2007b_404_eq2_apk.viewModel.OrgViewModel
 import com.example.tc2007b_404_eq2_apk.viewModel.PagViewModel
 
+@SuppressLint("MutableCollectionMutableState")
 @Composable
 fun DetailsOSC(navController: NavController, id: String) {
 
@@ -56,7 +48,7 @@ fun DetailsOSC(navController: NavController, id: String) {
         mutableStateOf(PageList())
     }
 
-    var s by remember {
+    val s by remember {
         mutableStateOf(Stringid(id))
     }
     pageViewModel.getP(s)
@@ -70,35 +62,127 @@ fun DetailsOSC(navController: NavController, id: String) {
     Surface(
         color = MaterialTheme.colorScheme.background
     ) {
-        Row(horizontalArrangement = Arrangement.Start){
+        Row(horizontalArrangement = Arrangement.Start) {
             Icon(
-            imageVector = Icons.Default.ArrowBack,
-            contentDescription = "Back",
-            modifier = Modifier
-                .size(24.dp)
-                .clickable {
-                    navController.popBackStack()
-                }
+                imageVector = Icons.Default.ArrowBack,
+                contentDescription = "Back",
+                modifier = Modifier
+                    .size(24.dp)
+                    .clickable {
+                        navController.popBackStack()
+                    }
             )
 
         }
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+                .padding(16.dp)
         ) {
-            Text(text = "$id", style = MaterialTheme.typography.bodySmall)
+            Text(
+                text = id,
+                style = MaterialTheme.typography.bodySmall,
+                color = Color.Transparent
+            )
             Spacer(modifier = Modifier.height(16.dp))
-            LazyColumn {
-                items(items = pagina) {
-                    Text(it.titulo)
-                    Text(it.desc)
-                    Text(it.img)
-                }
-                }
 
+            LazyColumn {
+                items(items = pagina) { item ->
+                    // Título
+                    Text(
+                        text = item.titulo,
+                        style = MaterialTheme.typography.headlineLarge,
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    )
+                    Text(
+                        text = item.desc,
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier
+                            .align(Alignment.Start)
+                            .padding(4.dp)
+                    )
+                    Text(
+                        text = item.img,
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier
+                            .align(Alignment.Start)
+                            .padding(4.dp)
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                // Botón 1
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(4.dp)
+                        .size(100.dp)
+                        .background(Color.Gray, RoundedCornerShape(8.dp))
+                        .clickable {}
+                ) {
+                    Text(
+                        text = "Botón 1",
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(4.dp)
+                        .size(100.dp)
+                        .background(Color.Gray, RoundedCornerShape(8.dp))
+                        .clickable {}
+                ) {
+                    Text(
+                        text = "Botón 2",
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                // Botón 3
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(4.dp)
+                        .size(100.dp)
+                        .background(Color.Gray, RoundedCornerShape(8.dp))
+                        .clickable {}
+                ) {
+                    Text(
+                        text = "Botón 3",
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+                // Botón 4
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(4.dp)
+                        .size(100.dp)
+                        .background(Color.Gray, RoundedCornerShape(8.dp))
+                        .clickable {}
+                ) {
+                    Text(
+                        text = "Botón 4",
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+            }
         }
     }
 }

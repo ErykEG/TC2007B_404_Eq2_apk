@@ -16,13 +16,11 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.List
 import androidx.compose.material.icons.outlined.Person
-import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.DrawerValue
@@ -60,6 +58,7 @@ import com.example.tc2007b_404_eq2_apk.viewModel.AppViewModel
 import com.example.tc2007b_404_eq2_apk.screens.about.AboutPage
 import com.example.tc2007b_404_eq2_apk.screens.busqueda.BusquedaPage
 import com.example.tc2007b_404_eq2_apk.screens.detailsosc.DetailsOSC
+import com.example.tc2007b_404_eq2_apk.screens.donativos.DonativosPage
 import com.example.tc2007b_404_eq2_apk.screens.favoritos.FavoritosPage
 import com.example.tc2007b_404_eq2_apk.screens.home.HomePage
 import com.example.tc2007b_404_eq2_apk.screens.login.LoginPage
@@ -330,7 +329,7 @@ fun MainPage(appViewModel: AppViewModel, navController: NavHostController) {
                     }
                     composable("AboutPage") {
                         isHomePage = false
-                        AboutPage(appViewModel)
+                        AboutPage(/*appViewModel*/)
                     }
                     composable("RegisterPage") {
                         isHomePage = false
@@ -367,7 +366,7 @@ fun MainPage(appViewModel: AppViewModel, navController: NavHostController) {
                     }
                     composable("FavoritosPage") {
                         isHomePage = true
-                        FavoritosPage(appViewModel)
+                        FavoritosPage(/*appViewModel*/)
                     }
                     composable("LogRegPage") {
                         isHomePage = false
@@ -384,6 +383,10 @@ fun MainPage(appViewModel: AppViewModel, navController: NavHostController) {
                     composable("BusquedaPage"){
                         isHomePage = false
                         BusquedaPage(navController)
+                    }
+                    composable("DonativosPage"){
+                        isHomePage = false
+                        DonativosPage()
                     }
                 }
             }

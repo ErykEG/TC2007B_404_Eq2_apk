@@ -35,7 +35,7 @@ import kotlin.time.Duration.Companion.seconds
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun AboutPage(appviewModel: AppViewModel) {
+fun DonativosPage(/*appviewModel: AppViewModel*/) {
 
 
 

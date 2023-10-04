@@ -1,5 +1,6 @@
 package com.example.tc2007b_404_eq2_apk.screens.home
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -51,6 +52,7 @@ import com.example.tc2007b_404_eq2_apk.viewModel.OrgViewModel
 import com.skydoves.landscapist.glide.GlideImage
 
 
+@SuppressLint("MutableCollectionMutableState")
 @Composable
 fun HomePage(navController: NavController) {
     val orgViewModel = OrgViewModel(OrgService.instance)
