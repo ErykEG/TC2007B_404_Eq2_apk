@@ -107,12 +107,12 @@ fun MainPage(appViewModel: AppViewModel, navController: NavHostController) {
             unselectedIcon = Icons.Outlined.Info,
             route = "AboutPage"
         ),
-        NavigationItem(
+        /*NavigationItem(
             title = "Configuración",
             selectedIcon = Icons.Filled.Settings,
             unselectedIcon = Icons.Outlined.Settings,
             route = "SettingsPage"
-        ),
+        ),*/
         /*NavigationItem(
             title = "Registrar Nueva Cuenta",
             selectedIcon = Icons.Filled.Create,
