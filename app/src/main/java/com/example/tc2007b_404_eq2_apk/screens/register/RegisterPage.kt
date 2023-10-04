@@ -1,9 +1,14 @@
 package com.example.tc2007b_404_eq2_apk.screens.register
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,6 +17,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -35,10 +42,19 @@ import com.example.tc2007b_404_eq2_apk.screens.organizations.showToast
 import com.example.tc2007b_404_eq2_apk.service.UserService
 import com.example.tc2007b_404_eq2_apk.viewModel.AppViewModel
 import com.example.tc2007b_404_eq2_apk.viewModel.UserViewModel
+import androidx.compose.material3.TopAppBar
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.lazy.LazyColumn
+import com.example.tc2007b_404_eq2_apk.util.constants.Constants
+import androidx.compose.material3.MaterialTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
+@OptIn(ExperimentalMaterial3Api::class)
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun RegisterPage(
     appViewModel: AppViewModel = AppViewModel(LocalContext.current),
@@ -47,6 +63,8 @@ fun RegisterPage(
 
     val viewModel = UserViewModel(UserService.instance)
     var showDelayedText by remember { mutableStateOf(false) }
+
+    var showPrivacyNotice by remember { mutableStateOf(false) }
 
     var telefono by remember {
         mutableStateOf("")
@@ -70,7 +88,8 @@ fun RegisterPage(
         mutableStateOf(false)
     }
     LaunchedEffect(telefono, password, validarpassword) {
-        isFieldsFilled = telefono.isNotBlank() && password.isNotBlank() && validarpassword.isNotBlank()
+        isFieldsFilled =
+            telefono.isNotBlank() && password.isNotBlank() && validarpassword.isNotBlank()
     }
 
     LaunchedEffect(key1 = viewModel) {
@@ -122,7 +141,11 @@ fun RegisterPage(
             Checkbox(
                 checked = termsAccepted,
                 onCheckedChange = {
-                    termsAccepted = it
+                    if (termsAccepted) {
+                        termsAccepted = false
+                    } else {
+                        showPrivacyNotice = true
+                    }
                 }
             )
             Text(
@@ -131,16 +154,17 @@ fun RegisterPage(
             )
         }
 
-        Button(onClick = {
-            if (termsAccepted && isFieldsFilled) {
-                viewModel.addUser(telefono.trim().toInt(), password)
-            }
-                         },
+        Button(
+            onClick = {
+                if (termsAccepted && isFieldsFilled) {
+                    viewModel.addUser(telefono.trim().toInt(), password)
+                }
+            },
             enabled = termsAccepted && isFieldsFilled
         ) {
             Text(text = "Registrar Usuario")
         }
-        Row(
+        /*Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable {
@@ -150,10 +174,12 @@ fun RegisterPage(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.Bottom
         ) {
-            Text(text = "Términos y Condiciones",
+            Text(
+                text = "Términos y Condiciones",
                 color = Color.Blue,
-                textDecoration = TextDecoration.Underline)
-        }
+                textDecoration = TextDecoration.Underline
+            )
+        }*/
 
         LaunchedEffect(showDelayedText) {
             if (showDelayedText) {
@@ -190,6 +216,81 @@ fun RegisterPage(
             }
         }
 
+    }
+
+    AnimatedVisibility(
+        visible = showPrivacyNotice,
+        enter = fadeIn(),
+        exit = fadeOut()
+    ) {
+
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = {
+                        Text(text = "Aviso de Privacidad")
+                    }
+                )
+            },
+            content = {
+                Box(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp)
+                    ) {
+                        item {
+                            Text(
+                                text = Constants.avisoDePrivacidad,
+                                style = MaterialTheme.typography.bodySmall
+                            )
+                        }
+
+
+                        item {
+                            Text(
+                                text = "Acepto a los términos y condiciones.",
+                                style = MaterialTheme.typography.bodySmall
+                            )
+                        }
+
+                        item {
+                            Spacer(modifier = Modifier.height(16.dp))
+                        }
+
+                        item {
+                            Row {
+                                Button(
+                                    onClick = {
+                                        showPrivacyNotice = false
+                                        termsAccepted = false
+                                    },
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Text(text = "Denegar")
+                                }
+                            }
+
+                        }
+                        item {
+                            Row {
+                                Button(
+                                    onClick = {
+                                        showPrivacyNotice = false
+                                        termsAccepted = true
+                                    },
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Text(text = "Aceptar")
+                                }
+                            }
+
+                        }
+                    }
+                }
+            })
     }
 }
 
