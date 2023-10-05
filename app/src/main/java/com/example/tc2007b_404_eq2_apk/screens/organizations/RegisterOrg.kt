@@ -182,7 +182,11 @@ fun RegisterOrgPage(
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.clickable {
-                termsAccepted = !termsAccepted
+                if (termsAccepted) {
+                    termsAccepted = false
+                } else {
+                    showPrivacyNotice = true
+                }
             }
         ) {
             Checkbox(
