@@ -31,6 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.tc2007b_404_eq2_apk.model.PageList
@@ -62,7 +63,7 @@ fun DetailsOSC(navController: NavController, id: String) {
     Surface(
         color = MaterialTheme.colorScheme.background
     ) {
-        Row(horizontalArrangement = Arrangement.Start) {
+        Row(modifier = Modifier.padding(15.dp),horizontalArrangement = Arrangement.Start) {
             Icon(
                 imageVector = Icons.Default.ArrowBack,
                 contentDescription = "Back",
@@ -86,31 +87,45 @@ fun DetailsOSC(navController: NavController, id: String) {
             )
             Spacer(modifier = Modifier.height(16.dp))
 
-            LazyColumn {
+            LazyColumn(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
                 items(items = pagina) { item ->
-                    // Título
                     Text(
                         text = item.titulo,
                         style = MaterialTheme.typography.headlineLarge,
                         modifier = Modifier.align(Alignment.CenterHorizontally)
+                            .fillMaxWidth()
+                            .padding(10.dp),
+                        textAlign = TextAlign.Center
+                    )
+                    Text(
+                        text = "¿Quiénes son?",
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                            .fillMaxWidth()
+                            .padding(10.dp),
+                        textAlign = TextAlign.Start
                     )
                     Text(
                         text = item.desc,
-                        style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier
-                            .align(Alignment.Start)
-                            .padding(4.dp)
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                            .fillMaxWidth()
+                            /*.padding(16.dp)*/,
+                        textAlign = TextAlign.Start
                     )
                     Text(
                         text = item.img,
                         style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier
-                            .align(Alignment.Start)
-                            .padding(4.dp)
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                            .fillMaxWidth()
+                            /*.padding(16.dp)*/,
+                        textAlign = TextAlign.Center
                     )
                 }
             }
-
             Spacer(modifier = Modifier.height(16.dp))
 
             Row(
@@ -118,17 +133,16 @@ fun DetailsOSC(navController: NavController, id: String) {
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                // Botón 1
                 Box(
                     modifier = Modifier
                         .weight(1f)
                         .padding(4.dp)
                         .size(100.dp)
-                        .background(Color.Gray, RoundedCornerShape(8.dp))
+                        .background(Color.Blue, RoundedCornerShape(8.dp))
                         .clickable {}
                 ) {
                     Text(
-                        text = "Botón 1",
+                        text = "Sobre nosotros",
                         modifier = Modifier.align(Alignment.Center)
                     )
                 }
@@ -137,11 +151,11 @@ fun DetailsOSC(navController: NavController, id: String) {
                         .weight(1f)
                         .padding(4.dp)
                         .size(100.dp)
-                        .background(Color.Gray, RoundedCornerShape(8.dp))
+                        .background(Color.Green, RoundedCornerShape(8.dp))
                         .clickable {}
                 ) {
                     Text(
-                        text = "Botón 2",
+                        text = "Objetivos",
                         modifier = Modifier.align(Alignment.Center)
                     )
                 }
@@ -154,31 +168,31 @@ fun DetailsOSC(navController: NavController, id: String) {
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                // Botón 3
                 Box(
                     modifier = Modifier
                         .weight(1f)
                         .padding(4.dp)
                         .size(100.dp)
-                        .background(Color.Gray, RoundedCornerShape(8.dp))
-                        .clickable {}
+                        .background(Color.Red, RoundedCornerShape(8.dp))
+                        .clickable {
+                            navController.navigate("DonativosPage")
+                        }
                 ) {
                     Text(
-                        text = "Botón 3",
+                        text = "Dona aquí",
                         modifier = Modifier.align(Alignment.Center)
                     )
                 }
-                // Botón 4
                 Box(
                     modifier = Modifier
                         .weight(1f)
                         .padding(4.dp)
                         .size(100.dp)
-                        .background(Color.Gray, RoundedCornerShape(8.dp))
+                        .background(Color.Magenta, RoundedCornerShape(8.dp))
                         .clickable {}
                 ) {
                     Text(
-                        text = "Botón 4",
+                        text = "Ubicación",
                         modifier = Modifier.align(Alignment.Center)
                     )
                 }
