@@ -2,18 +2,28 @@ package com.example.tc2007b_404_eq2_apk.screens.organizations
 
 import android.annotation.SuppressLint
 import android.widget.Toast
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -31,6 +41,13 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.compose.material3.TopAppBar
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.ExperimentalMaterial3Api
+import com.example.tc2007b_404_eq2_apk.util.constants.Constants
 import com.example.tc2007b_404_eq2_apk.model.OrgRegister
 import com.example.tc2007b_404_eq2_apk.model.OrgRegisterResponse
 import com.example.tc2007b_404_eq2_apk.screens.register.showToast
@@ -38,8 +55,14 @@ import com.example.tc2007b_404_eq2_apk.service.OrgService
 import com.example.tc2007b_404_eq2_apk.viewModel.AppViewModel
 import com.example.tc2007b_404_eq2_apk.viewModel.OrgViewModel
 
+
+@OptIn(ExperimentalMaterial3Api::class)
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun RegisterOrgPage(appViewModel: AppViewModel = AppViewModel(LocalContext.current), navController: NavController) {
+fun RegisterOrgPage(
+    appViewModel: AppViewModel = AppViewModel(LocalContext.current),
+    navController: NavController
+) {
 
     val orgViewModel = OrgViewModel(OrgService.instance)
 
@@ -76,6 +99,9 @@ fun RegisterOrgPage(appViewModel: AppViewModel = AppViewModel(LocalContext.curre
     var isFieldsFilled by remember {
         mutableStateOf(false)
     }
+
+    var showPrivacyNotice by remember { mutableStateOf(false) }
+
     LaunchedEffect(name, email, description, password, validarpassword, token) {
         isFieldsFilled = name.isNotBlank() &&
                 email.isNotBlank() &&
@@ -162,7 +188,11 @@ fun RegisterOrgPage(appViewModel: AppViewModel = AppViewModel(LocalContext.curre
             Checkbox(
                 checked = termsAccepted,
                 onCheckedChange = {
-                    termsAccepted = it
+                    if (termsAccepted) {
+                        termsAccepted = false
+                    } else {
+                        showPrivacyNotice = true
+                    }
                 }
             )
             Text(
@@ -171,11 +201,14 @@ fun RegisterOrgPage(appViewModel: AppViewModel = AppViewModel(LocalContext.curre
             )
         }
 
-        Button(onClick = {
+        Button(
+            onClick = {
 
-            val organization = OrgRegister(name, description, email, password, validarpassword, token)
+                val organization =
+                    OrgRegister(name, description, email, password, validarpassword, token)
 
-            orgViewModel.addOrganization(appViewModel.getToken(), organization)},
+                orgViewModel.addOrganization(appViewModel.getToken(), organization)
+            },
             enabled = termsAccepted && isFieldsFilled
         ) {
             Text(text = "Registrar Nueva Organización")
@@ -184,7 +217,7 @@ fun RegisterOrgPage(appViewModel: AppViewModel = AppViewModel(LocalContext.curre
         if (orgRegisterResult.message != null) {
             showToast(message = "Organizacion registrada exitosamente")
         }
-        Row(
+        /*Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable {
@@ -194,11 +227,87 @@ fun RegisterOrgPage(appViewModel: AppViewModel = AppViewModel(LocalContext.curre
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.Bottom
         ) {
-            Text(text = "Términos y Condiciones",
+            Text(
+                text = "Términos y Condiciones",
                 color = Color.Blue,
-                textDecoration = TextDecoration.Underline)
-        }
+                textDecoration = TextDecoration.Underline
+            )
+        }*/
 
+    }
+    AnimatedVisibility(
+        visible = showPrivacyNotice,
+        enter = fadeIn(),
+        exit = fadeOut()
+    ) {
+
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = {
+                        Text(text = "Aviso de Privacidad")
+                    }
+                )
+            },
+            content = {
+                Box(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp)
+                    ) {
+                        item {
+                            Text(
+                                text = Constants.avisoDePrivacidad,
+                                style = MaterialTheme.typography.bodySmall
+                            )
+                        }
+
+
+                        item {
+                            Text(
+                                text = "Acepto a los términos y condiciones.",
+                                style = MaterialTheme.typography.bodySmall
+                            )
+                        }
+
+                        item {
+                            Spacer(modifier = Modifier.height(16.dp))
+                        }
+
+                        item {
+                            Row {
+                                Button(
+                                    onClick = {
+                                        showPrivacyNotice = false
+                                        termsAccepted = false
+                                    },
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Text(text = "Denegar")
+                                }
+                            }
+
+                        }
+                        item {
+                            Row {
+                                Button(
+                                    onClick = {
+                                        showPrivacyNotice = false
+                                        termsAccepted = true
+                                    },
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Text(text = "Aceptar")
+                                }
+                            }
+
+                        }
+                    }
+                }
+            })
     }
 }
 
