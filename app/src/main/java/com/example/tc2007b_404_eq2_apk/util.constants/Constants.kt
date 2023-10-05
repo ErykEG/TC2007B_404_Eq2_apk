@@ -18,7 +18,7 @@ AVISO DE PRIVACIDAD
 [Nombre de la empresa/organización] respeta su privacidad y se compromete a proteger sus datos personales. Este aviso de privacidad le informa sobre nuestras prácticas de recopilación, uso, divulgación y protección de su información personal.
 
 1. Información que recopilamos:
-   - Nombre, dirección, número de teléfono y dirección de correo electrónico.
+   - Nombre, número de teléfono y dirección de correo electrónico.
    - Información de pago (por ejemplo, datos de tarjeta de crédito) cuando realiza una transacción con nosotros.
    - Datos de registro y uso cuando interactúa con nuestros servicios en línea.
    - Información demográfica como edad, género y preferencias.
