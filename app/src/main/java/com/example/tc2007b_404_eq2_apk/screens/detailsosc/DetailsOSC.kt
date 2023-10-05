@@ -1,6 +1,9 @@
 package com.example.tc2007b_404_eq2_apk.screens.detailsosc
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -34,16 +37,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.tc2007b_404_eq2_apk.R
 import com.example.tc2007b_404_eq2_apk.model.PageList
 import com.example.tc2007b_404_eq2_apk.model.Stringid
 import com.example.tc2007b_404_eq2_apk.service.PagService
 import com.example.tc2007b_404_eq2_apk.viewModel.PagViewModel
+import com.skydoves.landscapist.glide.GlideImage
 
 @SuppressLint("MutableCollectionMutableState")
 @Composable
 fun DetailsOSC(navController: NavController, id: String) {
 
     val pageViewModel = PagViewModel(PagService.instance)
+
+    var visibility by remember { mutableStateOf(true) }
 
     var pagina by remember {
         mutableStateOf(PageList())
@@ -63,7 +70,7 @@ fun DetailsOSC(navController: NavController, id: String) {
     Surface(
         color = MaterialTheme.colorScheme.background
     ) {
-        Row(modifier = Modifier.padding(15.dp),horizontalArrangement = Arrangement.Start) {
+        Row(modifier = Modifier.padding(15.dp), horizontalArrangement = Arrangement.Start) {
             Icon(
                 imageVector = Icons.Default.ArrowBack,
                 contentDescription = "Back",
@@ -92,10 +99,12 @@ fun DetailsOSC(navController: NavController, id: String) {
                 verticalArrangement = Arrangement.Center
             ) {
                 items(items = pagina) { item ->
+                    visibility = false
                     Text(
                         text = item.titulo,
                         style = MaterialTheme.typography.headlineLarge,
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
                             .fillMaxWidth()
                             .padding(10.dp),
                         textAlign = TextAlign.Center
@@ -103,7 +112,8 @@ fun DetailsOSC(navController: NavController, id: String) {
                     Text(
                         text = "¿Quiénes son?",
                         style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
                             .fillMaxWidth()
                             .padding(10.dp),
                         textAlign = TextAlign.Start
@@ -111,17 +121,19 @@ fun DetailsOSC(navController: NavController, id: String) {
                     Text(
                         text = item.desc,
                         style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
                             .fillMaxWidth()
-                            /*.padding(16.dp)*/,
+                        /*.padding(16.dp)*/,
                         textAlign = TextAlign.Start
                     )
                     Text(
                         text = item.img,
                         style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
                             .fillMaxWidth()
-                            /*.padding(16.dp)*/,
+                        /*.padding(16.dp)*/,
                         textAlign = TextAlign.Center
                     )
                 }
@@ -196,6 +208,28 @@ fun DetailsOSC(navController: NavController, id: String) {
                         modifier = Modifier.align(Alignment.Center)
                     )
                 }
+            }
+        }
+    }
+    AnimatedVisibility(
+        visible = visibility,
+        enter = fadeIn(),
+        exit = fadeOut()
+    ) {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            Column(
+                modifier = Modifier,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                GlideImage(
+                    imageModel = R.drawable.logoloading,
+                    modifier = Modifier.size(200.dp),
+                    contentDescription = null
+                )
             }
         }
     }
