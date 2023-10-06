@@ -384,9 +384,9 @@ fun MainPage(appViewModel: AppViewModel, navController: NavHostController) {
                         isHomePage = false
                         BusquedaPage(navController)
                     }
-                    composable("DonativosPage"){
+                    composable("DonativosPage") {
                         isHomePage = false
-                        DonativosPage()
+                        DonativosPage(navController)
                     }
                 }
             }
