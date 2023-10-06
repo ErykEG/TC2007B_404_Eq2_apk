@@ -38,6 +38,7 @@ fun DonativosPage(navController: NavController) {
 
     val coroutineScope = rememberCoroutineScope()
     var cardNumber by remember { mutableStateOf("") }
+    var nomCard by remember { mutableStateOf("") }
     var cardExpiration by remember { mutableStateOf("") }
     var cardCVC by remember { mutableStateOf("") }
     val snackbarHostState = remember { SnackbarHostState() }
@@ -57,6 +58,17 @@ fun DonativosPage(navController: NavController) {
         ) {
             Text("Donativos", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(16.dp))
 
+            TextField(
+                value = nomCard,
+                onValueChange = {
+                        nomCard = it
+                },
+                modifier = Modifier.fillMaxWidth().padding(16.dp),
+                placeholder = {
+                    Text("Nombre de la tarjeta")
+                },
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text)
+            )
             TextField(
                 value = cardNumber,
                 onValueChange = {
@@ -111,7 +123,7 @@ fun DonativosPage(navController: NavController) {
 
             Button(
                 onClick = {
-                    if (cardNumber.length == 16 && cardExpiration.length == 5 && cardCVC.length == 3) {
+                    if (cardNumber.length == 16 && cardExpiration.length == 5 && cardCVC.length == 3 && nomCard.isNotBlank()) {
                         coroutineScope.launch {
                             delay(2.seconds)
                             snackbarHostState.showSnackbar("Pago Realizado")
@@ -120,7 +132,7 @@ fun DonativosPage(navController: NavController) {
                     }
                 },
                 modifier = Modifier.fillMaxWidth().padding(16.dp),
-                enabled = cardNumber.length == 16 && cardExpiration.length == 5 && cardCVC.length == 3
+                enabled = cardNumber.length == 16 && cardExpiration.length == 5 && cardCVC.length == 3 && nomCard.isNotBlank()
             ) {
                 Text(text = "Pagar")
             }
