@@ -257,49 +257,51 @@ fun MainPage(appViewModel: AppViewModel, navController: NavHostController) {
                 TopAppBar(
                     title = {
                         if (isHomePage) {
-                            Text(text = "Inicio")
+                            Text(text = "")
                         } else {
                             Text("")
                         }
                     },
                     actions = {
                         if (isHomePage) {
-                            Spacer(
-                                modifier = Modifier
-                                    .fillMaxHeight()
-                                    .width(50.dp)
-                            )
-                            IconButton(
-                                onClick = {
-                                    navController.navigate("HomePage")
-                                },
-                                modifier = Modifier
-                                    .fillMaxHeight()
-                                    .weight(1f)
-                            ) {
-                                Text(text = "Inicio")
+                            if (loggedIn) {
+                                Spacer(
+                                    modifier = Modifier
+                                        .fillMaxHeight()
+                                        .width(50.dp)
+                                )
+                                IconButton(
+                                    onClick = {
+                                        navController.navigate("HomePage")
+                                    },
+                                    modifier = Modifier
+                                        .fillMaxHeight()
+                                        .weight(1f)
+                                ) {
+                                    Text(text = "Inicio")
+                                }
+                                Spacer(
+                                    modifier = Modifier
+                                        .fillMaxHeight()
+                                        .width(1.dp)
+                                        .background(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f))
+                                )
+                                IconButton(
+                                    onClick = {
+                                        navController.navigate("FavoritosPage")
+                                    },
+                                    modifier = Modifier
+                                        .fillMaxHeight()
+                                        .weight(1f)
+                                ) {
+                                    Text(text = "Favoritos")
+                                }
+                                Spacer(
+                                    modifier = Modifier
+                                        .fillMaxHeight()
+                                        .width(50.dp)
+                                )
                             }
-                            Spacer(
-                                modifier = Modifier
-                                    .fillMaxHeight()
-                                    .width(1.dp)
-                                    .background(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f))
-                            )
-                            IconButton(
-                                onClick = {
-                                    navController.navigate("FavoritosPage")
-                                },
-                                modifier = Modifier
-                                    .fillMaxHeight()
-                                    .weight(1f)
-                            ) {
-                                Text(text = "Favoritos")
-                            }
-                            Spacer(
-                                modifier = Modifier
-                                    .fillMaxHeight()
-                                    .width(50.dp)
-                            )
                         }
                     },
                     navigationIcon = {
@@ -431,3 +433,4 @@ fun MainPage(appViewModel: AppViewModel, navController: NavHostController) {
         )
     }
 }
+
