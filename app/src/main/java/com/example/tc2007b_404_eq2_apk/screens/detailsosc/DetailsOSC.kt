@@ -21,6 +21,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -34,6 +36,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Yellow
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -41,12 +44,13 @@ import com.example.tc2007b_404_eq2_apk.R
 import com.example.tc2007b_404_eq2_apk.model.PageList
 import com.example.tc2007b_404_eq2_apk.model.Stringid
 import com.example.tc2007b_404_eq2_apk.service.PagService
+import com.example.tc2007b_404_eq2_apk.viewModel.AppViewModel
 import com.example.tc2007b_404_eq2_apk.viewModel.PagViewModel
 import com.skydoves.landscapist.glide.GlideImage
 
 @SuppressLint("MutableCollectionMutableState")
 @Composable
-fun DetailsOSC(navController: NavController, id: String) {
+fun DetailsOSC(navController: NavController, id: String, appViewModel: AppViewModel) {
 
     val pageViewModel = PagViewModel(PagService.instance)
 
@@ -79,6 +83,19 @@ fun DetailsOSC(navController: NavController, id: String) {
                     .clickable {
                         navController.popBackStack()
                     }
+            )
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            val isFavorite = appViewModel.favorites[id] ?: false
+
+            Icon(
+                imageVector = if (isFavorite) Icons.Filled.Star else Icons.Outlined.Star,
+                contentDescription = "Favorite",
+                tint = if (isFavorite) Yellow else Color.Unspecified,
+                modifier = Modifier.size(24.dp).clickable {
+                    appViewModel.toggleFavorite(id)
+                }
             )
 
         }

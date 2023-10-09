@@ -3,6 +3,7 @@ package com.example.tc2007b_404_eq2_apk.viewModel
 
 import android.content.Context
 import android.util.Log
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -19,6 +20,7 @@ class AppViewModel(context: Context) : ViewModel() {
     private var token = ""
     private var isLoggedIn = false
     private var isAdmin = false
+    val favorites = mutableStateMapOf<String, Boolean>()
 
     private val _isInitialized = MutableStateFlow(false)
     val isInitialized: StateFlow<Boolean>
@@ -83,4 +85,8 @@ class AppViewModel(context: Context) : ViewModel() {
     fun setIsAdmin(value: Boolean) {
         isAdmin = value
     }
+    fun toggleFavorite(id: String) {
+        favorites[id] = !(favorites[id] ?: false)
+    }
+
 }
