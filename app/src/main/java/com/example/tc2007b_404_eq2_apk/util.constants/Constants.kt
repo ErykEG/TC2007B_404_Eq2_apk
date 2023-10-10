@@ -15,7 +15,7 @@ object Constants {
     val avisoDePrivacidad = """
 AVISO DE PRIVACIDAD
 
-[Nombre de la empresa/organización] respeta su privacidad y se compromete a proteger sus datos personales. Este aviso de privacidad le informa sobre nuestras prácticas de recopilación, uso, divulgación y protección de su información personal.
+FRISA respeta su privacidad y se compromete a proteger sus datos personales. Este aviso de privacidad le informa sobre nuestras prácticas de recopilación, uso, divulgación y protección de su información personal.
 
 1. Información que recopilamos:
    - Nombre, número de teléfono y dirección de correo electrónico.
@@ -42,11 +42,11 @@ AVISO DE PRIVACIDAD
 6. Cambios a este aviso:
    - Podemos actualizar este aviso de privacidad ocasionalmente. La versión más reciente estará disponible en nuestro sitio web.
 
-Si tiene alguna pregunta o inquietud sobre nuestro aviso de privacidad, comuníquese con nosotros a través de [información de contacto].
+Si tiene alguna pregunta o inquietud sobre nuestro aviso de privacidad, comuníquese con nosotros a través de https://www.frisa.com/es/contact-us/contact-us
 
-Fecha de entrada en vigor: [fecha]
+Fecha de entrada en vigor: 18/10/2023
 
-[Nombre de la empresa/organización]
+FRISA
 """
 
 
