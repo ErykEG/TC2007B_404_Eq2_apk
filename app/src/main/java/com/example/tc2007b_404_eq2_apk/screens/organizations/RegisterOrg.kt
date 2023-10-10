@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -45,8 +46,18 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.mutableStateListOf
 import com.example.tc2007b_404_eq2_apk.util.constants.Constants
 import com.example.tc2007b_404_eq2_apk.model.OrgRegister
 import com.example.tc2007b_404_eq2_apk.model.OrgRegisterResponse
@@ -101,6 +112,13 @@ fun RegisterOrgPage(
     }
 
     var showPrivacyNotice by remember { mutableStateOf(false) }
+    var showTags by remember { mutableStateOf(false) }
+
+    val nombres = listOf(
+        "Autismo", "Cancer de mama", "Vejez", "Educación", "Cultura",
+        "Refugio", "LGBTQ", "Psicologia", "Terapia", "Salud"
+    )
+    val selectedIndices = remember { mutableStateListOf<Int>() }
 
     LaunchedEffect(name, email, description, password, validarpassword, token) {
         isFieldsFilled = name.isNotBlank() &&
@@ -179,6 +197,18 @@ fun RegisterOrgPage(
         }, visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password)
         )
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.clickable {
+                showTags = true
+            }
+        ) {
+            Text(
+                text = "Seleccione sus tags",
+                modifier = Modifier.padding(start = 8.dp)
+            )
+        }
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.clickable {
@@ -239,6 +269,94 @@ fun RegisterOrgPage(
         }*/
 
     }
+
+    AnimatedVisibility(
+        visible = showTags,
+        enter = fadeIn(),
+        exit = fadeOut()
+    ) {
+
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            Column(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                // Encabezado
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.ArrowBack,
+                        contentDescription = "Back",
+                        modifier = Modifier
+                            .size(24.dp)
+                            .clickable {
+                                showTags = false
+                            }
+                    )
+                    Spacer(modifier = Modifier.width(20.dp))
+                    Text("Selecciona algún tag para agregar")
+                }
+
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                        .padding(16.dp)
+                ) {
+                    items(nombres) { nombre ->
+                        val index = nombres.indexOf(nombre)
+                        val isSelected = selectedIndices.contains(index)
+
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(8.dp)
+                                .size(50.dp)
+                                .clickable {
+                                    if (isSelected) {
+                                        selectedIndices.clear()
+                                    } else {
+                                        selectedIndices.clear()
+                                        selectedIndices.add(index)
+                                    }
+                                }
+                                .background(
+                                    color = if (isSelected) Color.Cyan else Color.DarkGray,
+                                    shape = RoundedCornerShape(20.dp)
+                                )
+                        ) {
+                            Text(
+                                text = nombre,
+                                modifier = Modifier
+                                    .align(Alignment.Center)
+                            )
+                        }
+                    }
+                }
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.Bottom,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Button(
+                        onClick = { showTags = false }
+                    ) {
+                        Text("Seleccionar")
+                    }
+                }
+            }
+        }
+    }
+
     AnimatedVisibility(
         visible = showPrivacyNotice,
         enter = fadeIn(),
