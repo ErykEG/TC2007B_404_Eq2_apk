@@ -44,6 +44,7 @@ import androidx.compose.ui.graphics.Color.Companion.Yellow
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.example.tc2007b_404_eq2_apk.R
 import com.example.tc2007b_404_eq2_apk.model.PageList
 import com.example.tc2007b_404_eq2_apk.model.Stringid
@@ -99,9 +100,11 @@ fun DetailsOSC(navController: NavController, id: String, appViewModel: AppViewMo
                 imageVector = if (isFavorite) Icons.Filled.Star else Icons.Outlined.Star,
                 contentDescription = "Favorite",
                 tint = if (isFavorite) Yellow else Color.LightGray,
-                modifier = Modifier.size(24.dp).clickable {
-                    appViewModel.toggleFavorite(id)
-                }
+                modifier = Modifier
+                    .size(24.dp)
+                    .clickable {
+                        appViewModel.toggleFavorite(id)
+                    }
             )
 
         }
@@ -120,7 +123,7 @@ fun DetailsOSC(navController: NavController, id: String, appViewModel: AppViewMo
             LazyColumn(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
-            ) {
+            ){
                 items(items = pagina) { item ->
                     visibility = false
                     Text(
@@ -132,6 +135,14 @@ fun DetailsOSC(navController: NavController, id: String, appViewModel: AppViewMo
                             .padding(10.dp),
                         textAlign = TextAlign.Center
                     )
+                }
+            }
+            LazyColumn(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                items(items = pagina) { item ->
+                    visibility = false
                     Text(
                         text = "¿Quiénes son?",
                         style = MaterialTheme.typography.bodyLarge,
@@ -150,95 +161,104 @@ fun DetailsOSC(navController: NavController, id: String, appViewModel: AppViewMo
                         /*.padding(16.dp)*/,
                         textAlign = TextAlign.Start
                     )
-                    Text(
-                        text = item.img,
-                        style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier
-                            .align(Alignment.CenterHorizontally)
-                            .fillMaxWidth()
-                        /*.padding(16.dp)*/,
-                        textAlign = TextAlign.Center
-                    )
+                    AsyncImage(model = item.img, contentDescription = "loquesea")
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(4.dp)
+                                .size(100.dp)
+                                .background(Color(0xFF6633FF).copy(alpha = 0.7f), RoundedCornerShape(8.dp))
+                                .clickable {
+                                    //Cambiar esta parte para que los links que se pongan en el registro sean los que se pongan
+                                    intentLauncher.launch(
+                                        Intent(
+                                            Intent.ACTION_VIEW,
+                                            Uri.parse("https://www.youtube.com/watch?v=IYDBilH8nME")
+                                        )
+                                    )
+                                }
+                        ) {
+                            Text(
+                                text = "Sobre nosotros",
+                                modifier = Modifier.align(Alignment.Center)
+                            )
+                        }
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(4.dp)
+                                .size(100.dp)
+                                .background(Color(0xFF33FF99).copy(alpha = 0.7f), RoundedCornerShape(8.dp))
+                                .clickable {
+                                    intentLauncher.launch(
+                                        Intent(
+                                            Intent.ACTION_VIEW,
+                                            Uri.parse("https://www.youtube.com/watch?v=IYDBilH8nME")
+                                        )
+                                    )
+                                }
+                        ) {
+                            Text(
+                                text = "Objetivos",
+                                modifier = Modifier.align(Alignment.Center)
+                            )
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(4.dp)
+                                .size(100.dp)
+                                .background(Color(0xFFFF3333).copy(alpha = 0.7f), RoundedCornerShape(8.dp))
+                                .clickable {
+                                    navController.navigate("DonativosPage")
+                                }
+                        ) {
+                            Text(
+                                text = "Dona aquí",
+                                modifier = Modifier.align(Alignment.Center)
+                            )
+                        }
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(4.dp)
+                                .size(100.dp)
+                                .background(Color(0xFF9933CC).copy(alpha = 0.7f), RoundedCornerShape(8.dp))
+                                .clickable {
+                                    intentLauncher.launch(
+                                        Intent(
+                                            Intent.ACTION_VIEW,
+                                            Uri.parse("https://www.google.com.mx/maps/@25.6809097,-100.2644369,10.04z?entry=ttu")
+                                        )
+                                    )
+                                }
+                        ) {
+                            Text(
+                                text = "Ubicación",
+                                modifier = Modifier.align(Alignment.Center)
+                            )
+                        }
+                    }
                 }
             }
-            Spacer(modifier = Modifier.height(16.dp))
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(4.dp)
-                        .size(100.dp)
-                        .background(Color(0xFF6633FF).copy(alpha = 0.7f), RoundedCornerShape(8.dp))
-                        .clickable {
-                            //Cambiar esta parte para que los links que se pongan en el registro sean los que se pongan
-                            intentLauncher.launch(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=IYDBilH8nME")))
-                        }
-                ) {
-                    Text(
-                        text = "Sobre nosotros",
-                        modifier = Modifier.align(Alignment.Center)
-                    )
-                }
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(4.dp)
-                        .size(100.dp)
-                        .background(Color(0xFF33FF99).copy(alpha = 0.7f), RoundedCornerShape(8.dp))
-                        .clickable {
-                            intentLauncher.launch(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=IYDBilH8nME")))
-                        }
-                ) {
-                    Text(
-                        text = "Objetivos",
-                        modifier = Modifier.align(Alignment.Center)
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(4.dp)
-                        .size(100.dp)
-                        .background(Color(0xFFFF3333).copy(alpha = 0.7f), RoundedCornerShape(8.dp))
-                        .clickable {
-                            navController.navigate("DonativosPage")
-                        }
-                ) {
-                    Text(
-                        text = "Dona aquí",
-                        modifier = Modifier.align(Alignment.Center)
-                    )
-                }
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(4.dp)
-                        .size(100.dp)
-                        .background(Color(0xFF9933CC).copy(alpha = 0.7f), RoundedCornerShape(8.dp))
-                        .clickable {
-                            intentLauncher.launch(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com.mx/maps/@25.6809097,-100.2644369,10.04z?entry=ttu")))
-                        }
-                ) {
-                    Text(
-                        text = "Ubicación",
-                        modifier = Modifier.align(Alignment.Center)
-                    )
-                }
-            }
         }
     }
     AnimatedVisibility(
