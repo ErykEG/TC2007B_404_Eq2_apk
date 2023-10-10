@@ -6,6 +6,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -61,6 +62,12 @@ fun HomePage(navController: NavController) {
     }
     var visibility by remember { mutableStateOf(true) }
 
+    val backgroundColor = if (isSystemInDarkTheme()) {
+        Color.DarkGray
+    } else {
+        Color.LightGray
+    }
+
     orgViewModel.getOrgL()
 
     LaunchedEffect(key1 = orgViewModel) {
@@ -83,7 +90,7 @@ fun HomePage(navController: NavController) {
                 .fillMaxWidth()
                 .padding(4.dp)
                 .clip(RoundedCornerShape(100.dp))
-                .background(color = Color.DarkGray)
+                .background(color = backgroundColor)
                 .clickable {
                     navController.navigate("BusquedaPage")
                 },
