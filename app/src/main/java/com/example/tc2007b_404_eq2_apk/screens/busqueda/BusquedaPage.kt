@@ -3,6 +3,7 @@ package com.example.tc2007b_404_eq2_apk.screens.busqueda
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
@@ -71,10 +73,11 @@ fun BusquedaPage(
                 val index = nombres.indexOf(nombre)
                 val isSelected = selectedIndices.contains(index)
 
-                Card(
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(8.dp)
+                        .size(50.dp)
                         .clickable {
                             if (isSelected) {
                                 selectedIndices.clear()
@@ -84,18 +87,15 @@ fun BusquedaPage(
                             }
                         }
                         .background(
-                            color = if (isSelected) Color.Cyan else Color.Gray
+                            color = if (isSelected) Color.Cyan else Color.DarkGray,
+                            shape = RoundedCornerShape(20.dp)
                         )
                 ) {
-                    Row(
+                    Text(
+                        text = nombre,
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(text = nombre)
-                    }
+                            .align(Alignment.Center)
+                    )
                 }
             }
         }

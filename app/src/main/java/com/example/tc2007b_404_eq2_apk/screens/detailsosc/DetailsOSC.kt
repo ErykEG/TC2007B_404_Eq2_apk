@@ -1,6 +1,10 @@
 package com.example.tc2007b_404_eq2_apk.screens.detailsosc
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -54,6 +58,8 @@ fun DetailsOSC(navController: NavController, id: String, appViewModel: AppViewMo
 
     val pageViewModel = PagViewModel(PagService.instance)
 
+    val intentLauncher = rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()){}
+
     var visibility by remember { mutableStateOf(true) }
 
     var pagina by remember {
@@ -92,7 +98,7 @@ fun DetailsOSC(navController: NavController, id: String, appViewModel: AppViewMo
             Icon(
                 imageVector = if (isFavorite) Icons.Filled.Star else Icons.Outlined.Star,
                 contentDescription = "Favorite",
-                tint = if (isFavorite) Yellow else Color.Unspecified,
+                tint = if (isFavorite) Yellow else Color.LightGray,
                 modifier = Modifier.size(24.dp).clickable {
                     appViewModel.toggleFavorite(id)
                 }
@@ -167,8 +173,11 @@ fun DetailsOSC(navController: NavController, id: String, appViewModel: AppViewMo
                         .weight(1f)
                         .padding(4.dp)
                         .size(100.dp)
-                        .background(Color.Blue, RoundedCornerShape(8.dp))
-                        .clickable {}
+                        .background(Color(0xFF6633FF).copy(alpha = 0.7f), RoundedCornerShape(8.dp))
+                        .clickable {
+                            //Cambiar esta parte para que los links que se pongan en el registro sean los que se pongan
+                            intentLauncher.launch(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=IYDBilH8nME")))
+                        }
                 ) {
                     Text(
                         text = "Sobre nosotros",
@@ -180,8 +189,10 @@ fun DetailsOSC(navController: NavController, id: String, appViewModel: AppViewMo
                         .weight(1f)
                         .padding(4.dp)
                         .size(100.dp)
-                        .background(Color.Green, RoundedCornerShape(8.dp))
-                        .clickable {}
+                        .background(Color(0xFF33FF99).copy(alpha = 0.7f), RoundedCornerShape(8.dp))
+                        .clickable {
+                            intentLauncher.launch(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=IYDBilH8nME")))
+                        }
                 ) {
                     Text(
                         text = "Objetivos",
@@ -202,7 +213,7 @@ fun DetailsOSC(navController: NavController, id: String, appViewModel: AppViewMo
                         .weight(1f)
                         .padding(4.dp)
                         .size(100.dp)
-                        .background(Color.Red, RoundedCornerShape(8.dp))
+                        .background(Color(0xFFFF3333).copy(alpha = 0.7f), RoundedCornerShape(8.dp))
                         .clickable {
                             navController.navigate("DonativosPage")
                         }
@@ -217,8 +228,10 @@ fun DetailsOSC(navController: NavController, id: String, appViewModel: AppViewMo
                         .weight(1f)
                         .padding(4.dp)
                         .size(100.dp)
-                        .background(Color.Magenta, RoundedCornerShape(8.dp))
-                        .clickable {}
+                        .background(Color(0xFF9933CC).copy(alpha = 0.7f), RoundedCornerShape(8.dp))
+                        .clickable {
+                            intentLauncher.launch(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com.mx/maps/@25.6809097,-100.2644369,10.04z?entry=ttu")))
+                        }
                 ) {
                     Text(
                         text = "Ubicación",
