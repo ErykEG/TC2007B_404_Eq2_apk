@@ -1,6 +1,7 @@
 package com.example.tc2007b_404_eq2_apk.service
 
 import com.example.tc2007b_404_eq2_apk.model.OrgRespList
+import com.example.tc2007b_404_eq2_apk.model.Star
 import com.example.tc2007b_404_eq2_apk.model.UserLogin
 import com.example.tc2007b_404_eq2_apk.model.UserLoginResponse
 import com.example.tc2007b_404_eq2_apk.model.UserProtectedResponse
@@ -38,5 +39,9 @@ interface UserService {
     @GET("getUserFavoriteOrganizations")
     //@Headers("Authorization: {token}")
     suspend fun getFav(@Header("Authorization") token: String): OrgRespList
+
+    @POST("hasFav")
+    //@Headers("Authorization: {token}")
+    suspend fun boolFav(@Header("Authorization") token: String): Star
 
 }

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.tc2007b_404_eq2_apk.model.OrgRespList
+import com.example.tc2007b_404_eq2_apk.model.Star
 import com.example.tc2007b_404_eq2_apk.model.UserLogin
 import com.example.tc2007b_404_eq2_apk.model.UserLoginResponse
 import com.example.tc2007b_404_eq2_apk.model.UserProtectedResponse
@@ -40,6 +41,10 @@ class UserViewModel(private val userService: UserService) : ViewModel() {
     private val _favResult = MutableStateFlow<OrgRespList?>(null)
     val favResult: StateFlow<OrgRespList?> //= _loginResult
         get() = _favResult
+
+    private val _isF = MutableStateFlow<Star?>(null)
+    val isF: StateFlow<Star?> //= _loginResult
+        get() = _isF
 
 
     fun addUser(telephone: Int, password: String) {
@@ -109,6 +114,24 @@ class UserViewModel(private val userService: UserService) : ViewModel() {
 
                 response =   userService.getFav(token)
                 _favResult.value = response
+
+            } catch (e: Exception) {
+                Log.d("RESPONSE", e.localizedMessage)
+            }
+        }
+
+    }
+
+    fun ifStarred(token: String) {
+
+        viewModelScope.launch {
+
+            var response: Star? = null
+
+            try {
+
+                response =   userService.boolFav(token)
+                _isF.value = response
 
             } catch (e: Exception) {
                 Log.d("RESPONSE", e.localizedMessage)
