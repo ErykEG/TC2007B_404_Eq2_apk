@@ -106,24 +106,6 @@ fun MainPage(appViewModel: AppViewModel, navController: NavHostController) {
             unselectedIcon = Icons.Outlined.Info,
             route = "AboutPage"
         ),
-        /*NavigationItem(
-            title = "Configuración",
-            selectedIcon = Icons.Filled.Settings,
-            unselectedIcon = Icons.Outlined.Settings,
-            route = "SettingsPage"
-        ),*/
-        /*NavigationItem(
-            title = "Registrar Nueva Cuenta",
-            selectedIcon = Icons.Filled.Create,
-            unselectedIcon = Icons.Outlined.Create,
-            route = "RegisterPage"
-        ),*/
-        /*NavigationItem(
-            title = "Iniciar Sesión",
-            selectedIcon = Icons.Filled.AccountCircle,
-            unselectedIcon = Icons.Outlined.AccountCircle,
-            route = "LoginPage"
-        ),*/
         NavigationItem(
             title = "Iniciar Sesión/Registrar Usuario",
             selectedIcon = Icons.Filled.AccountCircle,
@@ -136,12 +118,6 @@ fun MainPage(appViewModel: AppViewModel, navController: NavHostController) {
             unselectedIcon = Icons.Outlined.Person,
             route = "LogRegPageOSC"
         )
-        /*NavigationItem(
-            title = "Iniciar Sesión Org",
-            selectedIcon = Icons.Filled.AccountBox,
-            unselectedIcon = Icons.Outlined.AccountBox,
-            route = "OrgLogin"
-        )*/
     ) else
         mutableListOf(
             NavigationItem(
@@ -156,12 +132,6 @@ fun MainPage(appViewModel: AppViewModel, navController: NavHostController) {
                 unselectedIcon = Icons.Outlined.Info,
                 route = "AboutPage"
             )
-            /*NavigationItem(
-                title = "Configuración",
-                selectedIcon = Icons.Filled.Settings,
-                unselectedIcon = Icons.Outlined.Settings,
-                route = "SettingsPage"
-            )*/
         )
 
     if (appViewModel.isAdmin()) {
@@ -367,7 +337,7 @@ fun MainPage(appViewModel: AppViewModel, navController: NavHostController) {
                         }
                     }
                     composable("FavoritosPage") {
-                        FavoritosPage(appViewModel)
+                        FavoritosPage(navController,appViewModel)
                     }
                     composable("LogRegPage") {
                         isHomePage = false
