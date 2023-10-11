@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.tc2007b_404_eq2_apk.model.OrgRespList
 import com.example.tc2007b_404_eq2_apk.model.UserLogin
 import com.example.tc2007b_404_eq2_apk.model.UserLoginResponse
 import com.example.tc2007b_404_eq2_apk.model.UserProtectedResponse
@@ -35,6 +36,10 @@ class UserViewModel(private val userService: UserService) : ViewModel() {
     private val _protectedResult = MutableStateFlow<UserProtectedResponse?>(null)
     val protectedResult: StateFlow<UserProtectedResponse?> //= _loginResult
         get() = _protectedResult
+
+    private val _favResult = MutableStateFlow<OrgRespList?>(null)
+    val favResult: StateFlow<OrgRespList?> //= _loginResult
+        get() = _favResult
 
 
     fun addUser(telephone: Int, password: String) {
@@ -92,6 +97,24 @@ class UserViewModel(private val userService: UserService) : ViewModel() {
             }
 
         }
+    }
+
+    fun getFav(token: String) {
+
+        viewModelScope.launch {
+
+            var response: OrgRespList? = null
+
+            try {
+
+                response =   userService.getFav(token)
+                _favResult.value = response
+
+            } catch (e: Exception) {
+                Log.d("RESPONSE", e.localizedMessage)
+            }
+        }
+
     }
 
 

@@ -394,6 +394,7 @@ fun MainPage(appViewModel: AppViewModel, navController: NavHostController) {
         }
     }
 
+    
     if (showDialog) {
         AlertDialog(
             onDismissRequest = { showDialog = false },

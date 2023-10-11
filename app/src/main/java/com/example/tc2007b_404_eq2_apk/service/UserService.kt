@@ -1,5 +1,6 @@
 package com.example.tc2007b_404_eq2_apk.service
 
+import com.example.tc2007b_404_eq2_apk.model.OrgRespList
 import com.example.tc2007b_404_eq2_apk.model.UserLogin
 import com.example.tc2007b_404_eq2_apk.model.UserLoginResponse
 import com.example.tc2007b_404_eq2_apk.model.UserProtectedResponse
@@ -33,5 +34,9 @@ interface UserService {
     @GET("protected")
     //@Headers("Authorization: {token}")
     suspend fun protectedRoute(@Header("Authorization") token: String): UserProtectedResponse
+
+    @GET("getUserFavoriteOrganizations")
+    //@Headers("Authorization: {token}")
+    suspend fun getFav(@Header("Authorization") token: String): OrgRespList
 
 }
