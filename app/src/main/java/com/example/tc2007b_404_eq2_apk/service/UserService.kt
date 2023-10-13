@@ -1,5 +1,6 @@
 package com.example.tc2007b_404_eq2_apk.service
 
+import com.example.navdrawer.model.AddFavoriteOrganizationResponse
 import com.example.tc2007b_404_eq2_apk.model.OrgRespList
 import com.example.tc2007b_404_eq2_apk.model.Star
 import com.example.tc2007b_404_eq2_apk.model.UserLogin
@@ -10,6 +11,7 @@ import com.example.tc2007b_404_eq2_apk.model.UserRegistrationResponse
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Headers
@@ -43,5 +45,17 @@ interface UserService {
     @POST("hasFav")
     //@Headers("Authorization: {token}")
     suspend fun boolFav(@Header("Authorization") token: String): Star
+
+    @POST("add-favorite/{organizationId}")
+    suspend fun addFavoriteOrganization(
+        @Header("Authorization") token: String,
+        @Path("organizationId") organizationId: String
+    ): AddFavoriteOrganizationResponse
+
+    @DELETE("remove-favorite/{organizationId}")
+    suspend fun removeFavoriteOrganization(
+        @Header("Authorization") token: String,
+        @Path("organizationId") organizationId: String
+    ): AddFavoriteOrganizationResponse
 
 }
