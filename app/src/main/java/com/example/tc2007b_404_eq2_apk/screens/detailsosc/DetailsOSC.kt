@@ -61,12 +61,20 @@ fun DetailsOSC(navController: NavController, id: String, appViewModel: AppViewMo
 
     val pageViewModel = PagViewModel(PagService.instance)
 
+    val userViewModel = UserViewModel(UserService.instance)
+
+
     val intentLauncher = rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()){}
 
     var visibility by remember { mutableStateOf(true) }
 
     var pagina by remember {
         mutableStateOf(PageList())
+    }
+
+        
+    var mensj by remember {
+        mutableStateOf(Star(message = false))
     }
 
     val mensaje by remember { mutableStateOf("¡Descarga ConectAyuda y unete a la red más grande " +
@@ -94,6 +102,19 @@ fun DetailsOSC(navController: NavController, id: String, appViewModel: AppViewMo
             }
         }
     }
+
+    userViewModel.ifStarred(appViewModel.getToken(), id)
+    LaunchedEffect(key1 = userViewModel) {
+        userViewModel.isF.collect { result ->
+            if (result != null) {
+                mensj = result
+            }
+        }
+    }
+    var bool by remember {
+        mutableStateOf(mensj.message)
+    }
+    bool=mensj.message
     Surface(
         color = MaterialTheme.colorScheme.background
     ) {
@@ -114,13 +135,23 @@ fun DetailsOSC(navController: NavController, id: String, appViewModel: AppViewMo
             val isFavorite = appViewModel.favorites[id] ?: false
 
             Icon(
-                imageVector = if (isFavorite) Icons.Filled.Star else Icons.Outlined.Star,
+                imageVector = if (bool) Icons.Filled.Star else Icons.Outlined.Star,
                 contentDescription = "Favorite",
-                tint = if (isFavorite) Yellow else Color.LightGray,
+                tint = if (bool) Yellow else Color.LightGray,
                 modifier = Modifier
                     .size(24.dp)
                     .clickable {
-                        appViewModel.toggleFavorite(id)
+                        if(!bool){
+                            userViewModel.addUserFavoriteOrganization(appViewModel.getToken(), id)
+                            Log.d("hola", appViewModel.getToken())
+                            Log.d("hola", id)
+
+
+                        }
+                        else{userViewModel.removeUserFavoriteOrganization(appViewModel.getToken(), id)
+                            }
+                        bool=!bool
+                        Log.d("hola", bool.toString())
                     }
             )
 
