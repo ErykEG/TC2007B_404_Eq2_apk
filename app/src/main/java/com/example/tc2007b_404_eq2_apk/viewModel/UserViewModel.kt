@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.navdrawer.model.AddFavoriteOrganizationResponse
 import com.example.tc2007b_404_eq2_apk.model.OrgRespList
 import com.example.tc2007b_404_eq2_apk.model.Star
 import com.example.tc2007b_404_eq2_apk.model.UserLogin
@@ -122,7 +123,7 @@ class UserViewModel(private val userService: UserService) : ViewModel() {
 
     }
 
-    fun ifStarred(token: String) {
+    fun ifStarred(token: String, orgId: String) {
 
         viewModelScope.launch {
 
@@ -130,7 +131,7 @@ class UserViewModel(private val userService: UserService) : ViewModel() {
 
             try {
 
-                response =   userService.boolFav(token)
+                response =   userService.boolFav(token, orgId)
                 _isF.value = response
 
             } catch (e: Exception) {
@@ -138,6 +139,38 @@ class UserViewModel(private val userService: UserService) : ViewModel() {
             }
         }
 
+    }
+
+    fun addUserFavoriteOrganization(token: String, orgId: String) {
+
+
+        viewModelScope.launch {
+            val response: AddFavoriteOrganizationResponse
+            try {
+                response = userService.addFavoriteOrganization(token, orgId)
+                _addOrgFavoriteResult.value = response
+            } catch (e: Exception) {
+
+                val errorResponse = AddFavoriteOrganizationResponse(e.localizedMessage)
+                _addOrgFavoriteResult.value = errorResponse
+            }
+        }
+    }
+
+    fun removeUserFavoriteOrganization(token: String, orgId: String) {
+
+
+        viewModelScope.launch {
+            val response: AddFavoriteOrganizationResponse
+            try {
+                response = userService.removeFavoriteOrganization(token, orgId)
+                _removeOrgFavoriteResult.value = response
+            } catch (e: Exception) {
+
+                val errorResponse = AddFavoriteOrganizationResponse(e.localizedMessage)
+                _removeOrgFavoriteResult.value = errorResponse
+            }
+        }
     }
 
 
