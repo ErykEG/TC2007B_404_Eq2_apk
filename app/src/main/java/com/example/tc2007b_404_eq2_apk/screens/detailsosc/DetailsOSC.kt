@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -25,6 +26,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.Icon
@@ -67,6 +69,20 @@ fun DetailsOSC(navController: NavController, id: String, appViewModel: AppViewMo
         mutableStateOf(PageList())
     }
 
+    val mensaje by remember { mutableStateOf("¡Descarga ConectAyuda y unete a la red más grande " +
+            "de Organizaciónes de la sociedad civil de todo México!") }
+
+    val intent = remember { Intent(Intent.ACTION_SEND).apply {
+        putExtra(Intent.EXTRA_TEXT, mensaje)
+        type = "text/plain"
+    } }
+
+    val shareLauncher: ActivityResultLauncher<Intent> = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { _ ->
+        // Handle the result if needed
+    }
+
     val s by remember {
         mutableStateOf(Stringid(id))
     }
@@ -81,7 +97,8 @@ fun DetailsOSC(navController: NavController, id: String, appViewModel: AppViewMo
     Surface(
         color = MaterialTheme.colorScheme.background
     ) {
-        Row(modifier = Modifier.padding(15.dp), horizontalArrangement = Arrangement.Start) {
+        Row(modifier = Modifier.padding(10.dp), horizontalArrangement = Arrangement.Start) {
+            Spacer(modifier = Modifier.weight(0.03f))
             Icon(
                 imageVector = Icons.Default.ArrowBack,
                 contentDescription = "Back",
@@ -104,6 +121,18 @@ fun DetailsOSC(navController: NavController, id: String, appViewModel: AppViewMo
                     .size(24.dp)
                     .clickable {
                         appViewModel.toggleFavorite(id)
+                    }
+            )
+
+            Spacer(modifier = Modifier.weight(0.1f))
+
+            Icon(
+                imageVector = Icons.Default.Share,
+                contentDescription = "Share",
+                modifier = Modifier
+                    .size(24.dp)
+                    .clickable {
+                        shareLauncher.launch(Intent.createChooser(intent, "Compartir a:"))
                     }
             )
 
@@ -132,7 +161,7 @@ fun DetailsOSC(navController: NavController, id: String, appViewModel: AppViewMo
                         modifier = Modifier
                             .align(Alignment.CenterHorizontally)
                             .fillMaxWidth()
-                            .padding(10.dp),
+                            .padding(1.dp),
                         textAlign = TextAlign.Center
                     )
                 }
@@ -175,7 +204,10 @@ fun DetailsOSC(navController: NavController, id: String, appViewModel: AppViewMo
                                 .weight(1f)
                                 .padding(4.dp)
                                 .size(100.dp)
-                                .background(Color(0xFF6633FF).copy(alpha = 0.7f), RoundedCornerShape(8.dp))
+                                .background(
+                                    Color(0xFF6633FF).copy(alpha = 0.7f),
+                                    RoundedCornerShape(8.dp)
+                                )
                                 .clickable {
                                     //Cambiar esta parte para que los links que se pongan en el registro sean los que se pongan
                                     intentLauncher.launch(
@@ -196,7 +228,10 @@ fun DetailsOSC(navController: NavController, id: String, appViewModel: AppViewMo
                                 .weight(1f)
                                 .padding(4.dp)
                                 .size(100.dp)
-                                .background(Color(0xFF33FF99).copy(alpha = 0.7f), RoundedCornerShape(8.dp))
+                                .background(
+                                    Color(0xFF33FF99).copy(alpha = 0.7f),
+                                    RoundedCornerShape(8.dp)
+                                )
                                 .clickable {
                                     intentLauncher.launch(
                                         Intent(
@@ -225,7 +260,10 @@ fun DetailsOSC(navController: NavController, id: String, appViewModel: AppViewMo
                                 .weight(1f)
                                 .padding(4.dp)
                                 .size(100.dp)
-                                .background(Color(0xFFFF3333).copy(alpha = 0.7f), RoundedCornerShape(8.dp))
+                                .background(
+                                    Color(0xFFFF3333).copy(alpha = 0.7f),
+                                    RoundedCornerShape(8.dp)
+                                )
                                 .clickable {
                                     navController.navigate("DonativosPage")
                                 }
@@ -240,7 +278,10 @@ fun DetailsOSC(navController: NavController, id: String, appViewModel: AppViewMo
                                 .weight(1f)
                                 .padding(4.dp)
                                 .size(100.dp)
-                                .background(Color(0xFF9933CC).copy(alpha = 0.7f), RoundedCornerShape(8.dp))
+                                .background(
+                                    Color(0xFF9933CC).copy(alpha = 0.7f),
+                                    RoundedCornerShape(8.dp)
+                                )
                                 .clickable {
                                     intentLauncher.launch(
                                         Intent(

@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -44,6 +45,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -87,6 +89,18 @@ fun RegisterOrgPage(appViewModel: AppViewModel = AppViewModel(LocalContext.curre
     var token by remember {
         mutableStateOf("")
     }
+    var imglink by remember {
+        mutableStateOf("")
+    }
+    var linkb1 by remember {
+        mutableStateOf("")
+    }
+    var linkb2 by remember {
+        mutableStateOf("")
+    }
+    var linkb4 by remember {
+        mutableStateOf("")
+    }
 
     var orgRegisterResult by remember {
         mutableStateOf(OrgRegisterResponse())
@@ -115,7 +129,8 @@ fun RegisterOrgPage(appViewModel: AppViewModel = AppViewModel(LocalContext.curre
                 description.isNotBlank() &&
                 password.isNotBlank() &&
                 validarpassword.isNotBlank() &&
-                token.isNotBlank()
+                token.isNotBlank() &&
+                imglink.isNotBlank()
     }
 
 
@@ -135,194 +150,269 @@ fun RegisterOrgPage(appViewModel: AppViewModel = AppViewModel(LocalContext.curre
 
         Text("Agregar Nueva Organizacion", fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
 
-        TextField(value = name, onValueChange = {
-            name = it
-        }, placeholder = {
-            Text("Nombre")
-        })
+        Column(modifier = Modifier.fillMaxSize().verticalScroll(ScrollState(1)),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            TextField(value = name, onValueChange = {
+                name = it
+            }, placeholder = {
+                Text("Nombre")
+            })
 
-        TextField(
-            value = email,
-            onValueChange = {
-                email = it
-            },
-            placeholder = {
-                Text("Email")
-            },
-            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password)
-        )
-
-        TextField(value = description, onValueChange = {
-            description = it
-        }, placeholder = {
-            Text("Descripcion")
-        },
-            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password)
-        )
-        TextField(
-            value = password,
-            onValueChange = {
-                password = it
-            },
-            placeholder = {
-                Text("Contraseña")
-            },
-            visualTransformation = PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password)
-        )
-
-        TextField(value = validarpassword, onValueChange = {
-            validarpassword = it
-        }, placeholder = {
-            Text("Confirma tu contraseña")
-        }, visualTransformation = PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password)
-        )
-
-        TextField(value = token, onValueChange = {
-            token = it
-        }, placeholder = {
-            Text("Token de acceso")
-        }, visualTransformation = PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password)
-        )
-
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.clickable {
-                showTags = true
-            }
-        ) {
-            Text(
-                text = "Seleccione sus tags",
-                modifier = Modifier.padding(start = 8.dp)
+            TextField(
+                value = email,
+                onValueChange = {
+                    email = it
+                },
+                placeholder = {
+                    Text("Email")
+                },
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password)
             )
-        }
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.clickable {
-                if (termsAccepted) {
-                    termsAccepted = false
-                } else {
-                    showPrivacyNotice = true
-                }
+
+            TextField(value = description, onValueChange = {
+                description = it
+            }, placeholder = {
+                Text("Descripcion")
+            },
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password)
+            )
+            TextField(
+                value = password,
+                onValueChange = {
+                    password = it
+                },
+                placeholder = {
+                    Text("Contraseña")
+                },
+                visualTransformation = PasswordVisualTransformation(),
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password)
+            )
+
+            TextField(value = validarpassword, onValueChange = {
+                validarpassword = it
+            }, placeholder = {
+                Text("Confirma tu contraseña")
+            }, visualTransformation = PasswordVisualTransformation(),
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password)
+            )
+
+            TextField(value = token, onValueChange = {
+                token = it
+            }, placeholder = {
+                Text("Token de acceso")
+            }, visualTransformation = PasswordVisualTransformation(),
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password)
+            )
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Link de Imagen Web",
+                    modifier = Modifier.padding(start = 8.dp)
+                )
             }
-        ) {
-            Checkbox(
-                checked = termsAccepted,
-                onCheckedChange = {
+            TextField(value = imglink, onValueChange = {
+                imglink = it
+            }, placeholder = {
+                Text("Link de imagen")
+            }, keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text)
+            )
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Link de su página Web",
+                    modifier = Modifier.padding(start = 8.dp)
+                )
+            }
+            TextField(value = linkb1, onValueChange = {
+                linkb1 = it
+            }, placeholder = {
+                Text("Link de página")
+            }, keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text)
+            )
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Link de los objetivos de la organización",
+                    modifier = Modifier.padding(start = 8.dp)
+                )
+            }
+            TextField(value = linkb2, onValueChange = {
+                linkb2 = it
+            }, placeholder = {
+                Text("Link de objetivos")
+            }, keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text)
+            )
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Link de ubicación de la organización",
+                    modifier = Modifier.padding(start = 8.dp)
+                )
+            }
+            TextField(value = linkb4, onValueChange = {
+                linkb4 = it
+            }, placeholder = {
+                Text("Link de ubicación")
+            }, keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text)
+            )
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.clickable {
+                    showTags = true
+                }
+            ) {
+                Text(
+                    text = "Seleccione sus tags",
+                    modifier = Modifier.padding(start = 8.dp)
+                )
+            }
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.clickable {
                     if (termsAccepted) {
                         termsAccepted = false
                     } else {
                         showPrivacyNotice = true
                     }
                 }
-            )
-            Text(
-                text = "Aceptar términos y condiciones",
-                modifier = Modifier.padding(start = 8.dp)
-            )
-        }
-
-        Button(
-            onClick = {
-
-                val organization =
-                    OrgRegister(name, description, email, password, validarpassword, token)
-
-                orgViewModel.addOrganization(appViewModel.getToken(), organization)
-            },
-            enabled = termsAccepted && isFieldsFilled
-        ) {
-            Text(text = "Registrar Nueva Organización")
-        }
-
-        if (orgRegisterResult.message != null) {
-            showToast(message = "Organizacion registrada exitosamente")
-        }
-    }
-
-    AnimatedVisibility(
-        visible = showTags,
-        enter = fadeIn(),
-        exit = fadeOut()
-    ) {
-
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
-        ) {
-            Column(
-                modifier = Modifier.fillMaxSize()
             ) {
-                // Encabezado
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "Back",
-                        modifier = Modifier
-                            .size(24.dp)
-                            .clickable {
-                                showTags = false
-                            }
-                    )
-                    Spacer(modifier = Modifier.width(20.dp))
-                    Text("Selecciona algún tag para agregar")
-                }
-
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f)
-                        .padding(16.dp)
-                ) {
-                    items(nombres) { nombre ->
-                        val index = nombres.indexOf(nombre)
-                        val isSelected = selectedIndices.contains(index)
-
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(8.dp)
-                                .size(50.dp)
-                                .clickable {
-                                    if (isSelected) {
-                                        selectedIndices.clear()
-                                    } else {
-                                        selectedIndices.clear()
-                                        selectedIndices.add(index)
-                                    }
-                                }
-                                .background(
-                                    color = if (isSelected) Color.Cyan else Color.DarkGray,
-                                    shape = RoundedCornerShape(20.dp)
-                                )
-                        ) {
-                            Text(
-                                text = nombre,
-                                modifier = Modifier
-                                    .align(Alignment.Center)
-                            )
+                Checkbox(
+                    checked = termsAccepted,
+                    onCheckedChange = {
+                        if (termsAccepted) {
+                            termsAccepted = false
+                        } else {
+                            showPrivacyNotice = true
                         }
                     }
-                }
+                )
+                Text(
+                    text = "Aceptar términos y condiciones",
+                    modifier = Modifier.padding(start = 8.dp)
+                )
+            }
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    verticalAlignment = Alignment.Bottom,
-                    horizontalArrangement = Arrangement.Center
+            Button(
+                onClick = {
+
+                    val organization =
+                        OrgRegister(
+                            name,
+                            description,
+                            email,
+                            password,
+                            validarpassword,
+                            token,
+                            imglink,
+                            linkb1,
+                            linkb2,
+                            linkb4
+                        )
+
+                    orgViewModel.addOrganization(appViewModel.getToken(), organization)
+                },
+                enabled = termsAccepted && isFieldsFilled
+            ) {
+                Text(text = "Registrar Nueva Organización")
+            }
+
+            if (orgRegisterResult.message != null) {
+                showToast(message = "Organizacion registrada exitosamente")
+            }
+        }
+
+        AnimatedVisibility(
+            visible = showTags,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+
+            Surface(
+                modifier = Modifier.fillMaxSize(),
+                color = MaterialTheme.colorScheme.background
+            ) {
+                Column(
+                    modifier = Modifier.fillMaxSize()
                 ) {
-                    Button(
-                        onClick = { showTags = false }
+                    // Encabezado
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        horizontalArrangement = Arrangement.Center
                     ) {
-                        Text("Seleccionar")
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Back",
+                            modifier = Modifier
+                                .size(24.dp)
+                                .clickable {
+                                    showTags = false
+                                }
+                        )
+                        Spacer(modifier = Modifier.width(20.dp))
+                        Text("Selecciona algún tag para agregar")
+                    }
+
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f)
+                            .padding(16.dp)
+                    ) {
+                        items(nombres) { nombre ->
+                            val index = nombres.indexOf(nombre)
+                            val isSelected = selectedIndices.contains(index)
+
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(8.dp)
+                                    .size(50.dp)
+                                    .clickable {
+                                        if (isSelected) {
+                                            selectedIndices.clear()
+                                        } else {
+                                            selectedIndices.clear()
+                                            selectedIndices.add(index)
+                                        }
+                                    }
+                                    .background(
+                                        color = if (isSelected) Color.Cyan else Color.DarkGray,
+                                        shape = RoundedCornerShape(20.dp)
+                                    )
+                            ) {
+                                Text(
+                                    text = nombre,
+                                    modifier = Modifier
+                                        .align(Alignment.Center)
+                                )
+                            }
+                        }
+                    }
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        verticalAlignment = Alignment.Bottom,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Button(
+                            onClick = { showTags = false }
+                        ) {
+                            Text("Seleccionar")
+                        }
                     }
                 }
             }
