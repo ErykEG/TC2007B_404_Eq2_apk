@@ -205,14 +205,6 @@ fun RegisterOrgPage(appViewModel: AppViewModel = AppViewModel(LocalContext.curre
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password)
             )
 
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "Link de Imagen Web",
-                    modifier = Modifier.padding(start = 8.dp)
-                )
-            }
             TextField(value = imglink, onValueChange = {
                 imglink = it
             }, placeholder = {
@@ -220,14 +212,6 @@ fun RegisterOrgPage(appViewModel: AppViewModel = AppViewModel(LocalContext.curre
             }, keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text)
             )
 
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "Link de su página Web",
-                    modifier = Modifier.padding(start = 8.dp)
-                )
-            }
             TextField(value = linkb1, onValueChange = {
                 linkb1 = it
             }, placeholder = {
@@ -235,14 +219,6 @@ fun RegisterOrgPage(appViewModel: AppViewModel = AppViewModel(LocalContext.curre
             }, keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text)
             )
 
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "Link de los objetivos de la organización",
-                    modifier = Modifier.padding(start = 8.dp)
-                )
-            }
             TextField(value = linkb2, onValueChange = {
                 linkb2 = it
             }, placeholder = {
@@ -250,14 +226,6 @@ fun RegisterOrgPage(appViewModel: AppViewModel = AppViewModel(LocalContext.curre
             }, keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text)
             )
 
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "Link de ubicación de la organización",
-                    modifier = Modifier.padding(start = 8.dp)
-                )
-            }
             TextField(value = linkb4, onValueChange = {
                 linkb4 = it
             }, placeholder = {
@@ -330,89 +298,89 @@ fun RegisterOrgPage(appViewModel: AppViewModel = AppViewModel(LocalContext.curre
                 showToast(message = "Organizacion registrada exitosamente")
             }
         }
+    }
 
-        AnimatedVisibility(
-            visible = showTags,
-            enter = fadeIn(),
-            exit = fadeOut()
+    AnimatedVisibility(
+        visible = showTags,
+        enter = fadeIn(),
+        exit = fadeOut()
+    ) {
+
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
         ) {
-
-            Surface(
-                modifier = Modifier.fillMaxSize(),
-                color = MaterialTheme.colorScheme.background
+            Column(
+                modifier = Modifier.fillMaxSize()
             ) {
-                Column(
-                    modifier = Modifier.fillMaxSize()
+                // Encabezado
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    horizontalArrangement = Arrangement.Center
                 ) {
-                    // Encabezado
-                    Row(
+                    Icon(
+                        imageVector = Icons.Default.ArrowBack,
+                        contentDescription = "Back",
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Back",
-                            modifier = Modifier
-                                .size(24.dp)
-                                .clickable {
-                                    showTags = false
-                                }
-                        )
-                        Spacer(modifier = Modifier.width(20.dp))
-                        Text("Selecciona algún tag para agregar")
-                    }
-
-                    LazyColumn(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(1f)
-                            .padding(16.dp)
-                    ) {
-                        items(nombres) { nombre ->
-                            val index = nombres.indexOf(nombre)
-                            val isSelected = selectedIndices.contains(index)
-
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(8.dp)
-                                    .size(50.dp)
-                                    .clickable {
-                                        if (isSelected) {
-                                            selectedIndices.clear()
-                                        } else {
-                                            selectedIndices.clear()
-                                            selectedIndices.add(index)
-                                        }
-                                    }
-                                    .background(
-                                        color = if (isSelected) Color.Cyan else Color.DarkGray,
-                                        shape = RoundedCornerShape(20.dp)
-                                    )
-                            ) {
-                                Text(
-                                    text = nombre,
-                                    modifier = Modifier
-                                        .align(Alignment.Center)
-                                )
+                            .size(24.dp)
+                            .clickable {
+                                showTags = false
                             }
+                    )
+                    Spacer(modifier = Modifier.width(20.dp))
+                    Text("Selecciona algún tag para agregar")
+                }
+
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                        .padding(16.dp)
+                ) {
+                    items(nombres) { nombre ->
+                        val index = nombres.indexOf(nombre)
+                        val isSelected = selectedIndices.contains(index)
+
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(8.dp)
+                                .size(50.dp)
+                                .clickable {
+                                    if (isSelected) {
+                                        selectedIndices.clear()
+                                    } else {
+                                        selectedIndices.clear()
+                                        selectedIndices.add(index)
+                                    }
+                                }
+                                .background(
+                                    color = if (isSelected) Color.Cyan else Color.DarkGray,
+                                    shape = RoundedCornerShape(20.dp)
+                                )
+                        ) {
+                            Text(
+                                text = nombre,
+                                modifier = Modifier
+                                    .align(Alignment.Center)
+                            )
                         }
                     }
+                }
 
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        verticalAlignment = Alignment.Bottom,
-                        horizontalArrangement = Arrangement.Center
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.Bottom,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Button(
+                        onClick = { showTags = false }
                     ) {
-                        Button(
-                            onClick = { showTags = false }
-                        ) {
-                            Text("Seleccionar")
-                        }
+                        Text("Seleccionar")
                     }
                 }
             }
