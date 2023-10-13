@@ -20,7 +20,6 @@ class AppViewModel(context: Context) : ViewModel() {
     private var token = ""
     private var isLoggedIn = false
     private var isAdmin = false
-    val favorites = mutableStateMapOf<String, Boolean>()
 
     private val _isInitialized = MutableStateFlow(false)
     val isInitialized: StateFlow<Boolean>
@@ -85,8 +84,4 @@ class AppViewModel(context: Context) : ViewModel() {
     fun setIsAdmin(value: Boolean) {
         isAdmin = value
     }
-    fun toggleFavorite(id: String) {
-        favorites[id] = !(favorites[id] ?: false)
-    }
-
 }

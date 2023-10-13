@@ -49,7 +49,6 @@ import com.skydoves.landscapist.glide.GlideImage
 @SuppressLint("MutableCollectionMutableState")
 @Composable
 fun FavoritosPage(navController: NavController, appViewModel: AppViewModel) {
-    val favorites = appViewModel.favorites.filter { it.value }
     val userViewModel = UserViewModel(UserService.instance)
     var visibility by remember { mutableStateOf(true) }
     var favList by remember {
