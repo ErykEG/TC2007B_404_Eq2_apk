@@ -16,6 +16,7 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Headers
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface UserService {
 
@@ -42,9 +43,10 @@ interface UserService {
     //@Headers("Authorization: {token}")
     suspend fun getFav(@Header("Authorization") token: String): OrgRespList
 
-    @POST("hasFav")
+    @POST("hasFav/{organizationId}")
     //@Headers("Authorization: {token}")
-    suspend fun boolFav(@Header("Authorization") token: String): Star
+    suspend fun boolFav(@Header("Authorization") token: String,
+                        @Path("organizationId") organizationId: String): Star
 
     @POST("add-favorite/{organizationId}")
     suspend fun addFavoriteOrganization(

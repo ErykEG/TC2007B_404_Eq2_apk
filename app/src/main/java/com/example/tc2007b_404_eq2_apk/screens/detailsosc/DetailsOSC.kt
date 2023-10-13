@@ -3,6 +3,7 @@ package com.example.tc2007b_404_eq2_apk.screens.detailsosc
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -49,10 +50,13 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.tc2007b_404_eq2_apk.R
 import com.example.tc2007b_404_eq2_apk.model.PageList
+import com.example.tc2007b_404_eq2_apk.model.Star
 import com.example.tc2007b_404_eq2_apk.model.Stringid
 import com.example.tc2007b_404_eq2_apk.service.PagService
+import com.example.tc2007b_404_eq2_apk.service.UserService
 import com.example.tc2007b_404_eq2_apk.viewModel.AppViewModel
 import com.example.tc2007b_404_eq2_apk.viewModel.PagViewModel
+import com.example.tc2007b_404_eq2_apk.viewModel.UserViewModel
 import com.skydoves.landscapist.glide.GlideImage
 
 @SuppressLint("MutableCollectionMutableState")
@@ -131,8 +135,6 @@ fun DetailsOSC(navController: NavController, id: String, appViewModel: AppViewMo
             )
 
             Spacer(modifier = Modifier.weight(1f))
-
-            val isFavorite = appViewModel.favorites[id] ?: false
 
             Icon(
                 imageVector = if (bool) Icons.Filled.Star else Icons.Outlined.Star,
