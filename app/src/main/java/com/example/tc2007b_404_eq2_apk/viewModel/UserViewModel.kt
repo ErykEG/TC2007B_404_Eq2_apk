@@ -47,6 +47,14 @@ class UserViewModel(private val userService: UserService) : ViewModel() {
     val isF: StateFlow<Star?> //= _loginResult
         get() = _isF
 
+    private val _addOrgFavoriteResult = MutableStateFlow<AddFavoriteOrganizationResponse?>(null)
+    val addOrgFavoriteResult: StateFlow<AddFavoriteOrganizationResponse?> = _addOrgFavoriteResult
+
+
+    private val _removeOrgFavoriteResult = MutableStateFlow<AddFavoriteOrganizationResponse?>(null)
+    val removeOrgFavoriteResult: StateFlow<AddFavoriteOrganizationResponse?> = _addOrgFavoriteResult
+
+
 
     fun addUser(telephone: Int, password: String) {
         val user = UserRegister(telephone, password)
