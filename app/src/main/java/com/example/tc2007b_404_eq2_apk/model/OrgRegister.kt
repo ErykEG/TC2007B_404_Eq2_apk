@@ -7,7 +7,7 @@ data class OrgRegister(
     val password: String,
     val validarpassword: String,
     val token: String,
-    val imglink: String,
+    val img: String,
     val linkb1: String,
     val linkb2: String,
     val linkb4: String
