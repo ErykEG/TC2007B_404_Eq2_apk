@@ -75,7 +75,6 @@ fun DetailsOSC(navController: NavController, id: String, appViewModel: AppViewMo
     var pagina by remember {
         mutableStateOf(PageList())
     }
-
         
     var mensj by remember {
         mutableStateOf(Star(message = false))
@@ -219,8 +218,7 @@ fun DetailsOSC(navController: NavController, id: String, appViewModel: AppViewMo
                         style = MaterialTheme.typography.bodyMedium,
                         modifier = Modifier
                             .align(Alignment.CenterHorizontally)
-                            .fillMaxWidth()
-                        /*.padding(16.dp)*/,
+                            .fillMaxWidth(),
                         textAlign = TextAlign.Start
                     )
                     AsyncImage(model = item.img, contentDescription = "loquesea")
@@ -242,11 +240,10 @@ fun DetailsOSC(navController: NavController, id: String, appViewModel: AppViewMo
                                     RoundedCornerShape(8.dp)
                                 )
                                 .clickable {
-                                    //Cambiar esta parte para que los links que se pongan en el registro sean los que se pongan
                                     intentLauncher.launch(
                                         Intent(
                                             Intent.ACTION_VIEW,
-                                            Uri.parse("https://www.youtube.com/watch?v=IYDBilH8nME")
+                                            Uri.parse(item.linkb1)
                                         )
                                     )
                                 }
@@ -269,7 +266,7 @@ fun DetailsOSC(navController: NavController, id: String, appViewModel: AppViewMo
                                     intentLauncher.launch(
                                         Intent(
                                             Intent.ACTION_VIEW,
-                                            Uri.parse("https://www.youtube.com/watch?v=IYDBilH8nME")
+                                            Uri.parse(item.linkb2)
                                         )
                                     )
                                 }
@@ -319,7 +316,7 @@ fun DetailsOSC(navController: NavController, id: String, appViewModel: AppViewMo
                                     intentLauncher.launch(
                                         Intent(
                                             Intent.ACTION_VIEW,
-                                            Uri.parse("https://www.google.com.mx/maps/@25.6809097,-100.2644369,10.04z?entry=ttu")
+                                            Uri.parse(item.linkb4)
                                         )
                                     )
                                 }

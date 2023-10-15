@@ -89,7 +89,7 @@ fun RegisterOrgPage(appViewModel: AppViewModel = AppViewModel(LocalContext.curre
     var token by remember {
         mutableStateOf("")
     }
-    var imglink by remember {
+    var img by remember {
         mutableStateOf("")
     }
     var linkb1 by remember {
@@ -130,7 +130,7 @@ fun RegisterOrgPage(appViewModel: AppViewModel = AppViewModel(LocalContext.curre
                 password.isNotBlank() &&
                 validarpassword.isNotBlank() &&
                 token.isNotBlank() &&
-                imglink.isNotBlank()
+                img.isNotBlank()
     }
 
 
@@ -205,8 +205,8 @@ fun RegisterOrgPage(appViewModel: AppViewModel = AppViewModel(LocalContext.curre
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password)
             )
 
-            TextField(value = imglink, onValueChange = {
-                imglink = it
+            TextField(value = img, onValueChange = {
+                img = it
             }, placeholder = {
                 Text("Link de imagen")
             }, keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text)
@@ -281,7 +281,7 @@ fun RegisterOrgPage(appViewModel: AppViewModel = AppViewModel(LocalContext.curre
                             password,
                             validarpassword,
                             token,
-                            imglink,
+                            img,
                             linkb1,
                             linkb2,
                             linkb4
@@ -313,7 +313,6 @@ fun RegisterOrgPage(appViewModel: AppViewModel = AppViewModel(LocalContext.curre
             Column(
                 modifier = Modifier.fillMaxSize()
             ) {
-                // Encabezado
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
