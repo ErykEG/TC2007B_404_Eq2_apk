@@ -1,12 +1,17 @@
 package com.example.tc2007b_404_eq2_apk.screens.donativos
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
@@ -22,9 +27,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -42,6 +52,7 @@ fun DonativosPage(navController: NavController) {
     var cardExpiration by remember { mutableStateOf("") }
     var cardCVC by remember { mutableStateOf("") }
     val snackbarHostState = remember { SnackbarHostState() }
+    val intentLauncher = rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()){}
 
     Scaffold(
         snackbarHost = {
@@ -136,6 +147,27 @@ fun DonativosPage(navController: NavController) {
             ) {
                 Text(text = "Pagar")
             }
+
+            ClickableText(
+                text = buildAnnotatedString {
+                    withStyle(
+                        style = SpanStyle(
+                            color = Color.Cyan, textDecoration = TextDecoration.Underline
+                        )
+                    ) {
+                        append("Haz clic aquí para ir a MoneyPool")
+                    }
+                },
+                onClick = {
+                    intentLauncher.launch(
+                        Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse("https://www.moneypool.mx/")
+                        )
+                    )
+                }
+            )
+
         }
     }
 }
