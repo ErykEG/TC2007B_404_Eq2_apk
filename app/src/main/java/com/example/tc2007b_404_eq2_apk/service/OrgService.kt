@@ -1,5 +1,6 @@
 package com.example.tc2007b_404_eq2_apk.service
 
+import com.example.tc2007b_404_eq2_apk.model.ArrT
 import com.example.tc2007b_404_eq2_apk.model.OrgRegister
 import com.example.tc2007b_404_eq2_apk.model.OrgRegisterResponse
 import com.example.tc2007b_404_eq2_apk.model.OrgRespList
@@ -36,5 +37,11 @@ interface OrgService {
     @GET("getOrgs")
     //@Headers("Authorization: {token}")
     suspend fun all(): OrgRespList
+
+    @POST("filtOrgs")
+    //@Headers("Authorization: {token}")
+    suspend fun filt(
+        @Body tags: ArrT
+    ): OrgRespList
 
 }

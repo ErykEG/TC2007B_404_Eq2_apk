@@ -3,6 +3,7 @@ package com.example.tc2007b_404_eq2_apk.viewModel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.tc2007b_404_eq2_apk.model.ArrT
 import com.example.tc2007b_404_eq2_apk.model.OrgRegister
 import com.example.tc2007b_404_eq2_apk.model.OrgRegisterResponse
 import com.example.tc2007b_404_eq2_apk.model.OrgRespList
@@ -26,6 +27,9 @@ class OrgViewModel(private val orgService: OrgService) : ViewModel() {
 
     private val _orgListResult = MutableStateFlow<OrgRespList?>(null)
     val orgListResult: StateFlow<OrgRespList?> = _orgListResult
+
+    private val _filtResult = MutableStateFlow<OrgRespList?>(null)
+    val filtResult: StateFlow<OrgRespList?> = _filtResult
 
 
     fun addOrganization(token: String, org: OrgRegister) {
@@ -57,6 +61,24 @@ class OrgViewModel(private val orgService: OrgService) : ViewModel() {
 
                 response =   orgService.all()
                 _orgListResult.value = response
+
+            } catch (e: Exception) {
+                Log.d("RESPONSE", e.localizedMessage)
+            }
+        }
+
+    }
+
+    fun getFilt(tags: ArrT) {
+
+        viewModelScope.launch {
+
+            var response: OrgRespList? = null
+
+            try {
+
+                response =   orgService.filt(tags)
+                _filtResult.value = response
 
             } catch (e: Exception) {
                 Log.d("RESPONSE", e.localizedMessage)
