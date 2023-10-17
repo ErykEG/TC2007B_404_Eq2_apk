@@ -10,5 +10,6 @@ data class OrgRegister(
     val img: String,
     val linkb1: String,
     val linkb2: String,
-    val linkb4: String
+    val linkb4: String,
+    val orgTags: Array<String>
 )

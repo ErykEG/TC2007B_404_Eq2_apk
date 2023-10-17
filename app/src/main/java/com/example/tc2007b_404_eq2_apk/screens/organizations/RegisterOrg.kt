@@ -1,6 +1,7 @@
 package com.example.tc2007b_404_eq2_apk.screens.organizations
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -121,7 +122,7 @@ fun RegisterOrgPage(appViewModel: AppViewModel = AppViewModel(LocalContext.curre
         "Autismo", "Cancer de mama", "Vejez", "Educación", "Cultura",
         "Refugio", "LGBTQ", "Psicologia", "Terapia", "Salud"
     )
-    val selectedIndices = remember { mutableStateListOf<Int>() }
+    val orgTags = remember { mutableStateListOf<String>() }
 
     LaunchedEffect(name, email, description, password, validarpassword, token) {
         isFieldsFilled = name.isNotBlank() &&
@@ -284,7 +285,8 @@ fun RegisterOrgPage(appViewModel: AppViewModel = AppViewModel(LocalContext.curre
                             img,
                             linkb1,
                             linkb2,
-                            linkb4
+                            linkb4,
+                            orgTags.toTypedArray()
                         )
 
                     orgViewModel.addOrganization(appViewModel.getToken(), organization)
@@ -340,7 +342,7 @@ fun RegisterOrgPage(appViewModel: AppViewModel = AppViewModel(LocalContext.curre
                 ) {
                     items(nombres) { nombre ->
                         val index = nombres.indexOf(nombre)
-                        val isSelected = selectedIndices.contains(index)
+                        val isSelected = orgTags.contains(nombre)
 
                         Box(
                             modifier = Modifier
@@ -349,10 +351,9 @@ fun RegisterOrgPage(appViewModel: AppViewModel = AppViewModel(LocalContext.curre
                                 .size(50.dp)
                                 .clickable {
                                     if (isSelected) {
-                                        selectedIndices.clear()
+                                        orgTags.remove(nombre)
                                     } else {
-                                        selectedIndices.clear()
-                                        selectedIndices.add(index)
+                                        orgTags.add(nombre)
                                     }
                                 }
                                 .background(
@@ -377,7 +378,8 @@ fun RegisterOrgPage(appViewModel: AppViewModel = AppViewModel(LocalContext.curre
                     horizontalArrangement = Arrangement.Center
                 ) {
                     Button(
-                        onClick = { showTags = false }
+                        onClick = { showTags = false
+                        Log.d("hola", "${orgTags[0]}")}
                     ) {
                         Text("Seleccionar")
                     }
