@@ -5,12 +5,15 @@ import android.content.Intent
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -28,6 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -38,6 +42,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.tc2007b_404_eq2_apk.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
@@ -68,6 +73,46 @@ fun DonativosPage(navController: NavController) {
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Text("Donativos", fontSize = 20.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(16.dp))
+
+            Row {
+                Image(
+                    painter = painterResource(R.drawable.paypal),
+                    contentDescription = null,
+                    modifier = Modifier.size(50.dp)
+                )
+                Spacer(modifier = Modifier.padding(15.dp))
+                Image(
+                    painter = painterResource(R.drawable.visa),
+                    contentDescription = null,
+                    modifier = Modifier.size(50.dp)
+                )
+                Spacer(modifier = Modifier.padding(15.dp))
+                Image(
+                    painter = painterResource(R.drawable.mastercard),
+                    contentDescription = null,
+                    modifier = Modifier.size(50.dp)
+                )
+            }
+
+            ClickableText(
+                text = buildAnnotatedString {
+                    withStyle(
+                        style = SpanStyle(
+                            color = Color.Cyan, textDecoration = TextDecoration.Underline
+                        )
+                    ) {
+                        append("Haz clic aquí para ir a MoneyPool")
+                    }
+                },
+                onClick = {
+                    intentLauncher.launch(
+                        Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse("https://www.moneypool.mx/")
+                        )
+                    )
+                }
+            )
 
             TextField(
                 value = nomCard,
@@ -147,27 +192,6 @@ fun DonativosPage(navController: NavController) {
             ) {
                 Text(text = "Pagar")
             }
-
-            ClickableText(
-                text = buildAnnotatedString {
-                    withStyle(
-                        style = SpanStyle(
-                            color = Color.Cyan, textDecoration = TextDecoration.Underline
-                        )
-                    ) {
-                        append("Haz clic aquí para ir a MoneyPool")
-                    }
-                },
-                onClick = {
-                    intentLauncher.launch(
-                        Intent(
-                            Intent.ACTION_VIEW,
-                            Uri.parse("https://www.moneypool.mx/")
-                        )
-                    )
-                }
-            )
-
         }
     }
 }
