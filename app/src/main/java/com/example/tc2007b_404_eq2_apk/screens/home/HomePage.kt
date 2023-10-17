@@ -23,7 +23,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -52,7 +51,12 @@ import com.example.tc2007b_404_eq2_apk.service.OrgService
 import com.example.tc2007b_404_eq2_apk.viewModel.OrgViewModel
 import com.skydoves.landscapist.glide.GlideImage
 
-
+var images = listOf (
+    "https://condolenciasconcausa.com/wp-content/uploads/2020/08/Instituto-Nuevo-Amanecer-01-300x300.jpg",
+    "https://humind.center/wp-content/uploads/2022/04/HUMIND-bienestar-y-confianza-empresarial-atraccion-de-talento-humano-logo.jpg",
+    "https://ingenium-konsult.de/wp-content/uploads/2019/08/ingenium-logo-fresh-768x698.png",
+    "https://i.imgur.com/ZHZZzHI.jpg"
+)
 @SuppressLint("MutableCollectionMutableState")
 @Composable
 fun HomePage(navController: NavController) {
@@ -114,9 +118,11 @@ fun HomePage(navController: NavController) {
         }
 
         LazyColumn {
-            items(items = orgList) {
+            items(items = orgList) { osc ->
                 visibility = false
-                OSCRow(osc = it) { osc ->
+                val index = orgList.indexOf(osc)
+                val image = if (index < images.size) images[index] else ""
+                OSCRow(osc = osc,  image = image) { osc ->
                     navController.navigate(route = Screens.DetailsOSC.name + "/$osc")
                 }
             }
@@ -148,7 +154,7 @@ fun HomePage(navController: NavController) {
 }
 
 @Composable
-fun OSCRow(osc: OrgResp, onItemClick: (String) -> Unit = {}) {
+fun OSCRow(osc: OrgResp, image: String, onItemClick: (String) -> Unit = {}) {
     Card(
         modifier = Modifier
             .padding(4.dp)
@@ -171,8 +177,12 @@ fun OSCRow(osc: OrgResp, onItemClick: (String) -> Unit = {}) {
                     .size(100.dp),
                 shape = RectangleShape
             ) {
-
-                Icon(imageVector = Icons.Default.AccountBox, contentDescription = null)
+                if (image.isNotBlank()) {
+                    GlideImage(
+                        imageModel = image,
+                        contentDescription = null
+                    )
+                }
             }
             Text(text = osc.name)
         }
